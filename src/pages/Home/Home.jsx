@@ -1,5 +1,9 @@
+import CategoryGrid from "../../components/CategoryGrid";
 import Navbar from "../../components/Navigation/Navbar";
-import HeroSection from "./components/HeroSection";
+import Newsletter from "../../components/NewsLetter";
+import UpcomingEvents from "../../components/UpcomingEvents";
+import HeroSection from "../../components/HeroSection";
+import Footer from "../../components/Footer";
 
 function Home() {
   return (
@@ -8,6 +12,14 @@ function Home() {
       <Navbar />
       {/* Hero */}
       <HeroSection />
+      {/* Category Grid */}
+      <CategoryGrid />
+      {/* Upcoming Events */}
+      <UpcomingEvents />
+      {/* Newsletter */}
+      <Newsletter />
+      {/* Footer */}
+      <Footer />
     </div>
   );
 }
