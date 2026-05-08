@@ -6,7 +6,7 @@ function UpcomingEvents() {
     <section className="px-4 sm:px-8 lg:px-20 py-16 bg-[#f8fafc]">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="flex items-center justify-between mb-10">
+        <div className="flex flex-col items-start sm:flex-row sm:items-center justify-between mb-10">
           <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 font-['Syne']">
             Upcoming Experiences
           </h2>
