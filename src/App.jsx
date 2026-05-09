@@ -12,12 +12,14 @@ import Login from "./pages/auth/Login";
 import ForgotPassword from "./pages/auth/ForgotPassword";
 import ResetPassword from "./pages/auth/ResetPassword";
 import EventDetails from "./pages/EventDetails";
+import Checkout from "./pages/Checkout";
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/events/:id" element={<EventDetails />} />
+      <Route path="/checkout/:id" element={<Checkout />} />
 
       <Route
         path="/create-event"

@@ -64,8 +64,9 @@ function UpcomingEvents() {
                 </h3>
 
                 <p className="text-gray-500 text-sm mb-6 line-clamp-2">
-                  Experience an avant-garde fusion of classical orchestration
-                  and contemporary electronic...
+                  {event.about1
+                    .replace("{venue}", event.location.split(",")[0])
+                    .slice(0, 100) + "..."}
                 </p>
 
                 <div className="flex items-center justify-between">

@@ -34,28 +34,91 @@ export const events = [
     title: "The Modern Symphony: Electric Strings",
     location: "Royal Opera House, London",
     date: { month: "OCT", day: "12" },
+    time: "07:30 PM",
     price: "$85.00",
     image: "/images/symphony.svg",
     tag: "SELLING FAST",
+    coords: [51.5129, -0.1224],
     buttonText: "Book Now",
+    about1: `Step into the architectural masterpiece that is the
+                    {venue} for a night of unparalleled
+                    auditory exploration. Neon Pulse isn’t just a concert—it’s a
+                    curated journey through the evolution of electronic
+                    synthesis.`,
+    about2: `Our 2026 edition features world-first collaborations between
+                    leading modular synth pioneers and visual architects,
+                    creating a 360-degree sensory environment.`,
+    features: [
+      "12.1 Surround Sound System",
+      "Interactive Neon Art Gallery",
+      "Immersive Laser Projection Mapping",
+      "Premium Mixology & Lounge Areas",
+    ],
+    entryRequirements: [
+      "Age 18+ valid ID required at entrance.",
+      "Professional cameras prohibited without press pass.",
+      "Bag check enforced for all guests.",
+    ],
   },
   {
     id: 2,
-    title: "Global AI Summit 2024",
+    title: "Global AI Summit 2026",
     location: "Moscone Center, San Francisco",
     date: { month: "OCT", day: "18" },
+    time: "09:00 AM",
     price: "$299.00",
     image: "/images/ai-summit.svg",
     buttonText: "Register",
+    coords: [37.7749, -122.4194],
+    about1: `Step into the architectural masterpiece that is the
+                    {venue} for a night of unparalleled
+                    auditory exploration. Neon Pulse isn’t just a concert—it’s a
+                    curated journey through the evolution of electronic
+                    synthesis.`,
+    about2: `Our 2026 edition features world-first collaborations between
+                    leading modular synth pioneers and visual architects,
+                    creating a 360-degree sensory environment.`,
+    features: [
+      "Keynote Presentations",
+      "Workshop Sessions",
+      "Networking Opportunities",
+      "Exclusive Meet & Greet",
+    ],
+    entryRequirements: [
+      "Age 18+ valid ID required at entrance.",
+      "Professional cameras prohibited without press pass.",
+      "Bag check enforced for all guests.",
+    ],
   },
   {
     id: 3,
     title: "Berlin Underground: Deep Bass",
     location: "The Warehouse, Berlin",
     date: { month: "OCT", day: "24" },
+    time: "08:00 PM",
     price: "$45.00",
     image: "/images/berlin.svg",
     buttonText: "Book Now",
+    coords: [52.52, 13.405],
+    about1: `Step into the architectural masterpiece that is the
+                    {venue} for a night of unparalleled
+                    auditory exploration. Neon Pulse isn’t just a concert—it’s a
+                    curated journey through the evolution of electronic
+                    synthesis.`,
+    about2: `Our 2026 edition features world-first collaborations between
+                    leading modular synth pioneers and visual architects,
+                    creating a 360-degree sensory environment.`,
+    features: [
+      "Immersive Sound Design",
+      "Exclusive DJ Sets",
+      "VIP Lounge Access",
+      "Meet & Greet with Artists",
+    ],
+    entryRequirements: [
+      "Age 18+ valid ID required at entrance.",
+      "Professional cameras prohibited without press pass.",
+      "Bag check enforced for all guests.",
+    ],
   },
 ];
 
