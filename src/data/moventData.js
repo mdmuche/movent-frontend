@@ -79,3 +79,33 @@ export const footerLinks = {
     { name: "Security", href: "#" },
   ],
 };
+export const upcomingEvents = [
+  {
+    title: "Neo-Classical Resonance",
+    date: "Oct 24, 2024",
+    loc: "Oslo Opera House",
+    tag: "VIP ACCESS",
+    img: "images/neo-classic.svg",
+  },
+  {
+    title: "Sustainable Future Summit",
+    date: "Nov 02, 2024",
+    loc: "Stockholm City Hall",
+    tag: "CONFIRMED",
+    img: "images/sustainable-auture.svg",
+  },
+];
+export const recentActivity = [
+  {
+    type: "Ticket Purchased",
+    desc: "You bought 2 tickets for 'Urban Landscape Workshop'",
+    time: "2 HOURS AGO",
+    iconType: "check",
+  },
+  {
+    type: "Event Invite",
+    desc: "Sarah Miller invited you to curate the 'Winter Solstice Gala'",
+    time: "YESTERDAY",
+    iconType: "mail",
+  },
+];

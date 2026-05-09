@@ -5,7 +5,7 @@ import MobileNav from "./MobileNav";
 function Navbar() {
   const navLinks = [
     { name: "Explore", path: "/explore" },
-    { name: "Create Event", path: "/create" },
+    { name: "Create Event", path: "/create-event" },
     { name: "Dashboard", path: "/dashboard" },
   ];
 

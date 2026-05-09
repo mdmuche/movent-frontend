@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import AppShell from "../../components/layout/AppShell";
-import Button from "../../components/ui/Button";
+import AppShell from "../components/layout/AppShell";
+import Button from "../components/ui/Button";
 
 function Unauthorized() {
   return (

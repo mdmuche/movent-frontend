@@ -1,6 +1,6 @@
 import { Globe, Send, Share2 } from "lucide-react";
-import { footerLinks } from "../data/moventData";
 import { Link } from "react-router-dom";
+import { footerLinks } from "../../data/moventData";
 
 function Footer() {
   return (

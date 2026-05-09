@@ -1,5 +1,6 @@
 import { MapPin, ArrowRight } from "lucide-react";
 import { events } from "../data/moventData";
+import { Link } from "react-router-dom";
 
 function UpcomingEvents() {
   return (
@@ -21,7 +22,8 @@ function UpcomingEvents() {
         {/* Event Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {events.map((event) => (
-            <div
+            <Link
+              to={`/events/${event.id}`}
               key={event.id}
               className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-xl transition-shadow duration-300"
             >
@@ -81,7 +83,7 @@ function UpcomingEvents() {
                   </button>
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>
