@@ -13,6 +13,7 @@ import ForgotPassword from "./pages/auth/ForgotPassword";
 import ResetPassword from "./pages/auth/ResetPassword";
 import EventDetails from "./pages/EventDetails";
 import Checkout from "./pages/Checkout";
+import AdminDashboard from "./pages/Admin/AdminDashboard";
 
 function App() {
   return (
@@ -40,6 +41,14 @@ function App() {
         element={
           // <AdminGuard>
           <Dashboard />
+          // </AdminGuard>
+        }
+      />
+      <Route
+        path="/admin-dashboard"
+        element={
+          // <AdminGuard>
+          <AdminDashboard />
           // </AdminGuard>
         }
       />

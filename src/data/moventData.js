@@ -32,7 +32,10 @@ export const events = [
   {
     id: 1,
     title: "The Modern Symphony: Electric Strings",
+    category: "Music & Entertainment",
+    organization: "Vanguard Agency",
     location: "Royal Opera House, London",
+    capacity: "5000",
     date: { month: "OCT", day: "12" },
     time: "07:30 PM",
     price: "$85.00",
@@ -63,7 +66,10 @@ export const events = [
   {
     id: 2,
     title: "Global AI Summit 2026",
+    category: "Business & Career",
+    organization: "Elevate Collective",
     location: "Moscone Center, San Francisco",
+    capacity: "250",
     date: { month: "OCT", day: "18" },
     time: "09:00 AM",
     price: "$299.00",
@@ -93,7 +99,10 @@ export const events = [
   {
     id: 3,
     title: "Berlin Underground: Deep Bass",
+    category: "Cullinary Arts",
+    organization: "Table Stories",
     location: "The Warehouse, Berlin",
+    capacity: "50",
     date: { month: "OCT", day: "24" },
     time: "08:00 PM",
     price: "$45.00",

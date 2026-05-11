@@ -7,6 +7,7 @@ function Navbar() {
     { name: "Explore", path: "/explore" },
     { name: "Create Event", path: "/create-event" },
     { name: "Dashboard", path: "/dashboard" },
+    { name: "Admin Dashboard", path: "/admin-dashboard" },
   ];
 
   return (
@@ -14,9 +15,9 @@ function Navbar() {
       <div className="flex items-center justify-between h-16 md:h-20 max-w-7xl mx-auto">
         <Link
           to="/"
-          className="font-extrabold text-xl tracking-tight text-gray-900 font-['Syne'] mr-10"
+          className="font-extrabold text-2xl text-[#004d4d] cursor-pointer tracking-tight font-['Syne'] italic mr-10"
         >
-          Movent
+          <h1 className="">Movent</h1>
         </Link>
 
         <DesktopNav navLinks={navLinks} />
