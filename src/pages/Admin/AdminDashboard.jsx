@@ -73,7 +73,7 @@ function AdminDashboard() {
           <div className="flex items-center gap-8">
             <Link to="/">
               <h1 className="lg:hidden text-xl font-black text-[#004d4d] cursor-pointer">
-                Moventjj
+                Movent
               </h1>
             </Link>
             <nav className="hidden md:flex items-center gap-6 text-sm font-bold text-slate-500">
