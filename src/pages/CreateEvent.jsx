@@ -21,7 +21,7 @@ const CreateEvent = () => {
       <div className="min-h-screen bg-white pb-20 font-sans text-slate-900">
         {/* 1. Header Section */}
         <header className="max-w-7xl mx-auto px-4 pt-12 pb-8 text-center">
-          <h1 className="text-3xl md:text-4xl font-black text-[#004d4d] font-['Syne'] mb-4 uppercase tracking-tight">
+          <h1 className="text-xl md:text-4xl font-black text-[#004d4d] font-['Syne'] mb-4 uppercase tracking-tight">
             Create Your Masterpiece
           </h1>
           <p className="text-slate-500 font-bold text-sm md:text-base max-w-2xl mx-auto">
