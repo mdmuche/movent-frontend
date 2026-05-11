@@ -8,12 +8,12 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import CreateEvent from "./pages/CreateEvent";
 import Dashboard from "./pages/Dashboard";
 import Register from "./pages/auth/Register";
-import Login from "./pages/auth/Login";
 import ForgotPassword from "./pages/auth/ForgotPassword";
 import ResetPassword from "./pages/auth/ResetPassword";
 import EventDetails from "./pages/EventDetails";
 import Checkout from "./pages/Checkout";
 import AdminDashboard from "./pages/Admin/AdminDashboard";
+import Login from "./pages/Login";
 
 function App() {
   return (
@@ -25,9 +25,9 @@ function App() {
       <Route
         path="/create-event"
         element={
-          <ProtectedRoute>
-            <CreateEvent />
-          </ProtectedRoute>
+          // <ProtectedRoute>
+          <CreateEvent />
+          // </ProtectedRoute>
         }
       />
       {/* <Route path="/alerts" element={<Alerts />} /> */}
