@@ -7,10 +7,12 @@ import {
   Info,
   LogOut,
   Camera,
-  ChevronRight,
 } from "lucide-react";
 import Navbar from "../components/common/Navigation/Navbar";
 import Footer from "../components/common/Footer";
+import SettingsTab from "../components/SettingsT.ab";
+import InputGroup from "../components/InputGroup";
+import ToggleRow from "../components/ToggleRow";
 
 function Profile() {
   return (
@@ -158,53 +160,5 @@ function Profile() {
     </>
   );
 }
-
-// HELPER COMPONENTS
-const SettingsTab = ({ icon, label, active, variant }) => (
-  <button
-    className={`w-full flex items-center justify-between p-4 rounded-2xl transition-all ${
-      active
-        ? "bg-[#e6f4f4] text-[#004d4d]"
-        : "text-slate-400 hover:bg-slate-50"
-    }`}
-  >
-    <div
-      className={`flex items-center gap-4 ${variant === "danger" ? "text-red-500" : ""}`}
-    >
-      {icon} <span className="text-sm font-black">{label}</span>
-    </div>
-    {!variant && <ChevronRight size={16} className="opacity-20" />}
-  </button>
-);
-
-const InputGroup = ({ label, placeholder }) => (
-  <div className="space-y-2">
-    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">
-      {label}
-    </label>
-    <input
-      className="w-full bg-[#f1f4f4] rounded-xl p-4 text-sm font-bold border-none outline-none focus:ring-2 focus:ring-[#00e5ff]"
-      placeholder={placeholder}
-    />
-  </div>
-);
-
-const ToggleRow = ({ label, sub, active }) => (
-  <div className="flex items-center justify-between py-2">
-    <div>
-      <p className="text-sm font-black text-[#004d4d]">{label}</p>
-      <p className="text-[10px] font-bold text-slate-400 uppercase tracking-tight">
-        {sub}
-      </p>
-    </div>
-    <div
-      className={`w-12 h-6 rounded-full relative transition-colors cursor-pointer ${active ? "bg-[#00e5ff]" : "bg-slate-200"}`}
-    >
-      <div
-        className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-all ${active ? "right-1" : "left-1"}`}
-      />
-    </div>
-  </div>
-);
 
 export default Profile;
