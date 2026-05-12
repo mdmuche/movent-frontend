@@ -1,5 +1,6 @@
 import { Bell, Settings } from "lucide-react";
 import UserIcon from "../UserIcon";
+import { Link } from "react-router-dom";
 
 function NavIcons() {
   return (
@@ -10,7 +11,9 @@ function NavIcons() {
       <button className="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 cursor-pointer">
         <Settings size={16} className="text-gray-600" />
       </button>
-      <UserIcon />
+      <Link to="/profile">
+        <UserIcon />
+      </Link>
     </>
   );
 }

@@ -4,7 +4,7 @@ import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
 import Unauthorized from "./pages/Unauthorized";
 // import { AdminGuard } from "./components/AdminGuard";
-import ProtectedRoute from "./components/ProtectedRoute";
+// import ProtectedRoute from "./components/ProtectedRoute";
 import CreateEvent from "./pages/CreateEvent";
 import Dashboard from "./pages/Dashboard";
 import Register from "./pages/auth/Register";
@@ -13,7 +13,8 @@ import ResetPassword from "./pages/auth/ResetPassword";
 import EventDetails from "./pages/EventDetails";
 import Checkout from "./pages/Checkout";
 import AdminDashboard from "./pages/Admin/AdminDashboard";
-import Login from "./pages/Login";
+import Login from "./pages/auth/Login";
+import Profile from "./pages/Profile";
 
 function App() {
   return (
@@ -33,7 +34,11 @@ function App() {
       {/* <Route path="/alerts" element={<Alerts />} /> */}
       <Route
         path="/profile"
-        element={<ProtectedRoute>{/* <Profile /> */}</ProtectedRoute>}
+        element={
+          // <ProtectedRoute>
+          <Profile />
+          // </ProtectedRoute>
+        }
       />
 
       <Route
