@@ -23,8 +23,18 @@ import { events } from "../../data/moventData";
 import Footer from "../../components/common/Footer";
 import UserIcon from "../../components/common/UserIcon";
 import { Link } from "react-router-dom";
+import MobileNav from "../../components/common/Navigation/MobileNav";
 
 function AdminDashboard() {
+  const navLinks = [
+    { name: "Explore", path: "/" },
+    { name: "Create Event", path: "/create-event" },
+    { name: "Dashboard", path: "/dashboard" },
+    { name: "Admin Dashboard", path: "/admin-dashboard" },
+    { name: "Profile", path: "/profile" },
+    {},
+  ];
+
   return (
     <div className="min-h-screen bg-[#f1f5f9] flex font-sans text-slate-900">
       {/* Sidebar - Hidden on mobile, fixed on desktop */}
@@ -69,13 +79,14 @@ function AdminDashboard() {
       {/* Main Content */}
       <main className="flex-1 overflow-x-hidden">
         {/* Header */}
-        <header className="bg-white border-b border-slate-200 px-4 lg:px-8 py-4 flex items-center justify-between sticky top-0 z-50">
-          <div className="flex items-center gap-8">
+        <header className="bg-white border-b border-slate-200 px-4 lg:px-8 py-4 lg:flex lg:flex-col xl:flex-row lg:gap-4  items-center justify-between sticky top-0 z-50">
+          <div className="flex items-center justify-between lg:justify-center w-full">
             <Link to="/">
               <h1 className="lg:hidden text-xl font-black text-[#004d4d] cursor-pointer">
                 Movent
               </h1>
             </Link>
+            <MobileNav navLinks={navLinks} />
             <nav className="hidden md:flex items-center gap-6 text-sm font-bold text-slate-500">
               <Link
                 to="/"
@@ -83,7 +94,7 @@ function AdminDashboard() {
               >
                 Home
               </Link>
-              <Link to="/explore" className="hover:text-slate-800">
+              <Link to="/" className="hover:text-slate-800">
                 Explore
               </Link>
               <Link to="/create-event" className="hover:text-slate-800">
@@ -92,7 +103,7 @@ function AdminDashboard() {
             </nav>
           </div>
 
-          <div className="flex items-center gap-4 lg:gap-6">
+          <div className="hidden w-full sm:flex justify-between items-center gap-4 lg:gap-6">
             <div className="hidden sm:flex items-center bg-slate-100 rounded-xl px-4 py-2 w-64 border border-transparent focus-within:border-slate-300 transition-all">
               <Search size={18} className="text-slate-400" />
               <input
@@ -100,18 +111,22 @@ function AdminDashboard() {
                 className="bg-transparent border-none focus:ring-0 text-sm ml-2 w-full"
               />
             </div>
-            <button className="p-2 text-slate-400 hover:text-slate-600 relative">
-              <Bell size={20} />
-              <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
-            </button>
-            <div className="flex items-center gap-3 pl-4 border-l border-slate-200">
-              <div className="text-right hidden sm:block">
-                <p className="text-xs font-black text-slate-900">Admin</p>
-                <p className="text-[10px] font-bold text-slate-400 uppercase">
-                  System Admin
-                </p>
+            <div className="flex items-center gap-4">
+              <button className="p-2 text-slate-400 hover:text-slate-600 relative">
+                <Bell size={20} />
+                <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
+              </button>
+              <div className="flex items-center gap-3 pl-4 border-l border-slate-200">
+                <div className="text-right hidden sm:block">
+                  <p className="text-xs font-black text-slate-900">Admin</p>
+                  <p className="text-[10px] font-bold text-slate-400 uppercase">
+                    System Admin
+                  </p>
+                </div>
+                <Link to="/profile">
+                  <UserIcon />
+                </Link>
               </div>
-              <UserIcon />
             </div>
           </div>
         </header>
