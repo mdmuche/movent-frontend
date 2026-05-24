@@ -15,6 +15,7 @@ import Checkout from "./pages/Checkout";
 import AdminDashboard from "./pages/Admin/AdminDashboard";
 import Login from "./pages/auth/Login";
 import Profile from "./pages/Profile";
+import VerifyEmail from "./pages/auth/VerifyEmail";
 
 function App() {
   return (
@@ -58,6 +59,10 @@ function App() {
         }
       />
       <Route path="/register" element={<Register />} />
+      <Route
+        path="/verify-email/:verificationToken"
+        element={<VerifyEmail />}
+      />
       <Route path="/login" element={<Login />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/reset-password/:token" element={<ResetPassword />} />
