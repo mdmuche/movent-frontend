@@ -1,14 +1,29 @@
 import { Link, useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
+
 import NavIcons from "./NavIcons";
 
 // 1. Desktop Navigation Component
 function DesktopNav({ navLinks }) {
+  const { user, isAuthenticated } = useSelector((state) => state.auth);
+
+  const role = user?.role;
   const location = useLocation();
+
+  // FILTER LINKS BASED ON ROLE
+  const filteredLinks = navLinks.filter((link) => {
+    if (!link.roles) return true; // public links
+
+    if (!isAuthenticated) return false;
+
+    return link.roles.includes(role);
+  });
 
   return (
     <div className="hidden md:flex items-center justify-between w-full">
+      {/* LEFT NAV LINKS */}
       <div className="flex items-center gap-8">
-        {navLinks.map((link) => (
+        {filteredLinks.map((link) => (
           <Link
             key={link.path}
             to={link.path}
@@ -23,10 +38,12 @@ function DesktopNav({ navLinks }) {
         ))}
       </div>
 
+      {/* RIGHT ICONS */}
       <div className="flex items-center gap-3">
         <NavIcons />
       </div>
     </div>
   );
 }
+
 export default DesktopNav;

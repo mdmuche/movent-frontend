@@ -3,8 +3,8 @@ import "./App.css";
 import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
 import Unauthorized from "./pages/Unauthorized";
-// import { AdminGuard } from "./components/AdminGuard";
-// import ProtectedRoute from "./components/ProtectedRoute";
+import { AdminGuard } from "./components/AdminGuard";
+import ProtectedRoute from "./components/ProtectedRoute";
 import CreateEvent from "./pages/CreateEvent";
 import Dashboard from "./pages/Dashboard";
 import Register from "./pages/auth/Register";
@@ -27,35 +27,35 @@ function App() {
       <Route
         path="/create-event"
         element={
-          // <ProtectedRoute>
-          <CreateEvent />
-          // </ProtectedRoute>
+          <ProtectedRoute>
+            <CreateEvent />
+          </ProtectedRoute>
         }
       />
       {/* <Route path="/alerts" element={<Alerts />} /> */}
       <Route
         path="/profile"
         element={
-          // <ProtectedRoute>
-          <Profile />
-          // </ProtectedRoute>
+          <ProtectedRoute>
+            <Profile />
+          </ProtectedRoute>
         }
       />
 
       <Route
         path="/dashboard"
         element={
-          // <AdminGuard>
-          <Dashboard />
-          // </AdminGuard>
+          <ProtectedRoute>
+            <Dashboard />
+          </ProtectedRoute>
         }
       />
       <Route
         path="/admin-dashboard"
         element={
-          // <AdminGuard>
-          <AdminDashboard />
-          // </AdminGuard>
+          <AdminGuard>
+            <AdminDashboard />
+          </AdminGuard>
         }
       />
       <Route path="/register" element={<Register />} />

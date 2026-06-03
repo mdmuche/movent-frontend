@@ -1,9 +1,67 @@
 import { ArrowRight, Users } from "lucide-react";
-import { Link } from "react-router-dom";
-import SocialBtn from "../../components/SocialBtn";
-import SignupInput from "../../components/SignupInput";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
+import { useState } from "react";
 
-function Signup() {
+// Components
+import SocialBtn from "../../components/SocialBtn";
+import InputField from "../../components/InputField";
+import { registerUser } from "../../store/thunks/authThunks";
+// Redux
+
+function Register() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const [formData, setFormData] = useState({
+    fullName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!formData.fullName) {
+      toast.error("Full name is required");
+      return;
+    }
+
+    if (!formData.email.trim()) {
+      toast.error("Email is required");
+      return;
+    }
+
+    if (formData.password.length < 8) {
+      toast.error("Password must be at least 8 characters");
+      return;
+    }
+
+    if (formData.password !== formData.confirmPassword) {
+      toast.error("Passwords do not match");
+      return;
+    }
+
+    try {
+      await dispatch(registerUser(formData)).unwrap();
+      toast.success("Account created successfully");
+
+      setTimeout(() => {
+        navigate("/login");
+      }, 3100);
+    } catch (err) {
+      toast.error(err);
+    }
+  };
   return (
     <div className="flex flex-col lg:flex-row font-sans">
       {/* Left Pane - Visual Branding */}
@@ -56,18 +114,36 @@ function Signup() {
             </p>
           </header>
 
-          <form className="space-y-6">
-            <SignupInput label="Full Name" placeholder="Alexander Curator" />
-            <SignupInput label="Email Address" placeholder="alex@movent.com" />
+          <form className="space-y-6" onSubmit={handleSubmit}>
+            <InputField
+              label="Full Name"
+              placeholder="Alexander Curator"
+              name="fullName"
+              value={formData.fullName}
+              onChange={handleChange}
+            />
+            <InputField
+              label="Email Address"
+              placeholder="alex@movent.com"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+            />
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <SignupInput
+              <InputField
                 label="Password"
                 type="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
                 placeholder="••••••••"
               />
-              <SignupInput
+              <InputField
                 label="Confirm Password"
                 type="password"
+                name="confirmPassword"
+                value={formData.confirmPassword}
+                onChange={handleChange}
                 placeholder="••••••••"
               />
             </div>
@@ -121,4 +197,4 @@ function Signup() {
   );
 }
 
-export default Signup;
+export default Register;

@@ -5,13 +5,17 @@ import MobileNav from "./MobileNav";
 function Navbar() {
   const navLinks = [
     { name: "Explore", path: "/" },
-    { name: "Create Event", path: "/create-event" },
-    { name: "Dashboard", path: "/dashboard" },
-    { name: "Admin Dashboard", path: "/admin-dashboard" },
+    {
+      name: "Create Event",
+      path: "/create-event",
+      roles: ["organizer", "admin"],
+    },
+    { name: "Dashboard", path: "/dashboard", roles: ["attendee", "organizer"] },
+    { name: "Admin Dashboard", path: "/admin-dashboard", roles: ["admin"] },
   ];
 
   return (
-    <nav className="relative bg-white border-gray-100 z-[100] px-4 sm:px-8 lg:px-20">
+    <nav className="fixed bg-white border-gray-100 z-[100] px-4 sm:px-8 lg:px-20">
       <div className="flex items-center justify-between h-16 md:h-20 max-w-7xl mx-auto">
         <Link
           to="/"
