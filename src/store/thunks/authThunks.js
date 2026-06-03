@@ -30,7 +30,8 @@ export const verifyEmail = createAsyncThunk(
   async (token, { rejectWithValue }) => {
     try {
       const res = await verifyEmailRequest(token);
-      return res;
+
+      return res.data; // ✅ FIXE
     } catch (error) {
       return rejectWithValue(
         error.response?.data?.message || "Verification failed",
