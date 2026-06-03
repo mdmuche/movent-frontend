@@ -1,9 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import axios from "axios";
+import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
+
+import { verifyEmail } from "../../store/thunks/authThunks";
 
 export default function VerifyEmail() {
   const { verificationToken } = useParams();
+  const dispatch = useDispatch();
 
   const hasVerified = useRef(false);
 
@@ -14,31 +18,28 @@ export default function VerifyEmail() {
   useEffect(() => {
     if (hasVerified.current) return;
 
-    hasVerified.current = true;
+    const runVerification = async () => {
+      hasVerified.current = true;
 
-    const verifyEmail = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:5001/v1/auth/verify-email/${verificationToken}`,
-        );
+        const res = await dispatch(verifyEmail(verificationToken)).unwrap();
 
         setSuccess(true);
-        setMessage(response.data?.message || "Email verified successfully");
-      } catch (error) {
+        setMessage(res?.message || "Email verified successfully");
+        toast.success("Email verified successfully");
+      } catch (err) {
         setSuccess(false);
-        setMessage(
-          error.response?.data?.message ||
-            "Invalid or expired verification token.",
-        );
+        setMessage(err || "Invalid or expired verification token");
+        toast.error(err || "Verification failed");
       } finally {
         setLoading(false);
       }
     };
 
     if (verificationToken) {
-      verifyEmail();
+      runVerification();
     }
-  }, [verificationToken]);
+  }, [verificationToken, dispatch]);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">

@@ -15,19 +15,22 @@ function Navbar() {
   ];
 
   return (
-    <nav className="fixed bg-white border-gray-100 z-[100] px-4 sm:px-8 lg:px-20">
-      <div className="flex items-center justify-between h-16 md:h-20 max-w-7xl mx-auto">
-        <Link
-          to="/"
-          className="font-extrabold text-2xl text-[#004d4d] cursor-pointer tracking-tight font-['Syne'] italic mr-10"
-        >
-          <h1 className="">Movent</h1>
-        </Link>
+    <>
+      <nav className="fixed top-0 left-0 right-0 w-full bg-white border-gray-100 z-[100] px-4 sm:px-8 lg:px-20">
+        <div className="flex items-center justify-between h-16 md:h-20 max-w-7xl mx-auto">
+          <Link
+            to="/"
+            className="font-extrabold text-2xl text-[#004d4d] cursor-pointer tracking-tight font-['Syne'] italic mr-10"
+          >
+            <h1 className="">Movent</h1>
+          </Link>
 
-        <DesktopNav navLinks={navLinks} />
-        <MobileNav navLinks={navLinks} />
-      </div>
-    </nav>
+          <DesktopNav navLinks={navLinks} />
+          <MobileNav navLinks={navLinks} />
+        </div>
+      </nav>
+      <div className="h-16 md:h-20" aria-hidden="true" />
+    </>
   );
 }
 

@@ -1,6 +1,57 @@
+import { useState } from "react";
 import { ArrowLeft, Mail, ChevronRight } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
+
+import { forgotPassword } from "../../store/thunks/authThunks";
+import InputField from "../../components/InputField";
 
 function ForgotPassword() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const validate = () => {
+    if (!email.trim()) {
+      toast.error("Email is required");
+      return false;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailRegex.test(email)) {
+      toast.error("Please enter a valid email address");
+      return false;
+    }
+
+    return true;
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!validate()) return;
+
+    try {
+      setLoading(true);
+
+      const res = await dispatch(forgotPassword(email)).unwrap();
+
+      toast.success(res?.message || "Reset link sent to your email");
+
+      setTimeout(() => {
+        navigate("/login");
+      }, 2000);
+    } catch (err) {
+      toast.error(err || "Something went wrong");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-[#f8fafc] flex flex-col items-center justify-center p-4 font-sans">
       {/* Brand Header */}
@@ -20,9 +71,12 @@ function ForgotPassword() {
         <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-[#004d4d] to-[#00e5ff]" />
 
         <div className="p-8 md:p-12">
-          <button className="flex items-center gap-2 text-[#004d4d] font-black text-[10px] uppercase tracking-widest mb-8 hover:gap-3 transition-all">
+          <Link
+            to="/login"
+            className="flex items-center gap-2 text-[#004d4d] font-black text-[10px] uppercase tracking-widest mb-8 hover:gap-3 transition-all"
+          >
             <ArrowLeft size={14} /> Back to Login
-          </button>
+          </Link>
 
           <header className="mb-10">
             <h2 className="text-3xl font-black text-slate-900 mb-3">
@@ -34,26 +88,24 @@ function ForgotPassword() {
             </p>
           </header>
 
-          <form className="space-y-8">
-            <div className="space-y-2">
-              <label className="block text-xs font-black text-slate-400 uppercase tracking-widest ml-1">
-                Email Address
-              </label>
-              <div className="relative">
-                <Mail
-                  className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300"
-                  size={18}
-                />
-                <input
-                  type="email"
-                  placeholder="name@company.com"
-                  className="w-full bg-[#f1f4f4] border-none rounded-2xl p-4 pl-12 text-slate-700 placeholder:text-slate-300 focus:ring-2 focus:ring-[#00e5ff] outline-none transition-all font-medium"
-                />
-              </div>
-            </div>
+          <form className="space-y-8" onSubmit={handleSubmit}>
+            <InputField
+              label="Email Address"
+              type="email"
+              name="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="name@company.com"
+              icon={<Mail size={18} className="text-slate-300" />}
+            />
 
-            <button className="w-full bg-[#00e5ff] text-[#004d4d] font-black py-5 rounded-2xl shadow-lg shadow-cyan-100 hover:brightness-105 active:scale-[0.98] transition-all flex items-center justify-center gap-2">
-              Send Reset Link <ChevronRight size={18} />
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full bg-[#00e5ff] text-[#004d4d] font-black py-5 rounded-2xl shadow-lg shadow-cyan-100 hover:brightness-105 active:scale-[0.98] transition-all flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
+            >
+              {loading ? "Sending..." : "Send Reset Link"}
+              <ChevronRight size={18} />
             </button>
           </form>
         </div>

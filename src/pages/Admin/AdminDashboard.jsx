@@ -79,7 +79,7 @@ function AdminDashboard() {
       {/* Main Content */}
       <main className="flex-1 overflow-x-hidden">
         {/* Header */}
-        <header className="bg-white border-b border-slate-200 px-4 lg:px-8 py-4 lg:flex lg:flex-col xl:flex-row lg:gap-4  items-center justify-between sticky top-0 z-50">
+        <header className="fixed top-0 left-0 right-0 lg:left-72 bg-white border-b border-slate-200 px-4 lg:px-8 py-4 lg:flex lg:flex-col xl:flex-row lg:gap-4 items-center justify-between z-50">
           <div className="flex items-center justify-between lg:justify-center w-full">
             <Link to="/">
               <h1 className="lg:hidden text-xl font-black text-[#004d4d] cursor-pointer">
@@ -130,6 +130,10 @@ function AdminDashboard() {
             </div>
           </div>
         </header>
+        <div
+          className="h-16 sm:h-28 lg:h-32 xl:h-20"
+          aria-hidden="true"
+        />
 
         <div className="p-4 lg:p-8 max-w-[1600px] mx-auto space-y-8">
           {/* Dashboard Intro */}

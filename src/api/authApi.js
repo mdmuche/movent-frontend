@@ -6,6 +6,11 @@ export const registerRequest = async (data) => {
   return response.data;
 };
 
+export const verifyEmailRequest = async (token) => {
+  const response = await api.get(`/v1/auth/verify-email/${token}`);
+  return response.data;
+};
+
 export const loginRequest = async (data) => {
   const response = await api.post("/v1/auth/login", data);
 

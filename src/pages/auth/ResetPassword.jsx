@@ -1,7 +1,79 @@
-import { ShieldCheck, EyeOff } from "lucide-react";
+import { useState } from "react";
+import { ShieldCheck, Eye, EyeOff } from "lucide-react";
+import { useDispatch } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
+
 import Requirement from "../../components/Requirement";
+import InputField from "../../components/InputField";
+import { resetPassword } from "../../store/thunks/authThunks";
 
 function ResetPassword() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { token } = useParams();
+
+  const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+
+  const [formData, setFormData] = useState({
+    password: "",
+    confirmPassword: "",
+  });
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const validate = () => {
+    if (!formData.password.trim()) {
+      toast.error("Password is required");
+      return false;
+    }
+
+    if (formData.password.length < 8) {
+      toast.error("Password must be at least 8 characters");
+      return false;
+    }
+
+    if (formData.password !== formData.confirmPassword) {
+      toast.error("Passwords do not match");
+      return false;
+    }
+
+    return true;
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!validate()) return;
+
+    try {
+      setLoading(true);
+
+      const res = await dispatch(
+        resetPassword({
+          resetToken: token,
+          password: formData.password,
+        }),
+      ).unwrap();
+
+      toast.success(res?.message || "Password updated successfully");
+
+      setTimeout(() => {
+        navigate("/login");
+      }, 2000);
+    } catch (err) {
+      toast.error(err || "Failed to reset password");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-[#f8fafc] flex flex-col items-center justify-center p-4 font-sans">
       <div className="w-full max-w-[450px] bg-white rounded-[2.5rem] shadow-sm border border-slate-100 overflow-hidden relative">
@@ -12,52 +84,73 @@ function ResetPassword() {
             <div className="w-12 h-12 bg-cyan-50 rounded-2xl flex items-center justify-center text-[#00e5ff] mb-6">
               <ShieldCheck size={28} />
             </div>
+
             <h2 className="text-3xl font-black text-slate-900 mb-3">
               Reset Password
             </h2>
+
             <p className="text-slate-500 font-medium leading-relaxed">
-              Almost there. Please choose a strong new password for your
-              account.
+              Choose a strong new password for your account.
             </p>
           </header>
 
-          <form className="space-y-6">
-            <div className="space-y-2">
-              <label className="block text-xs font-black text-slate-400 uppercase tracking-widest ml-1">
-                New Password
-              </label>
-              <div className="relative">
-                <input
-                  type="password"
-                  placeholder="••••••••"
-                  className="w-full bg-[#f1f4f4] border-none rounded-2xl p-4 text-slate-700 placeholder:text-slate-300 focus:ring-2 focus:ring-[#00e5ff] outline-none transition-all font-medium"
-                />
-                <EyeOff
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-300 cursor-pointer"
-                  size={18}
-                />
-              </div>
-            </div>
+          <form className="space-y-6" onSubmit={handleSubmit}>
+            {/* NEW PASSWORD */}
+            <InputField
+              label="New Password"
+              type={showPassword ? "text" : "password"}
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              placeholder="••••••••"
+              icon={
+                showPassword ? (
+                  <EyeOff
+                    size={18}
+                    className="text-slate-400 cursor-pointer"
+                    onClick={() => setShowPassword(false)}
+                  />
+                ) : (
+                  <Eye
+                    size={18}
+                    className="text-slate-400 cursor-pointer"
+                    onClick={() => setShowPassword(true)}
+                  />
+                )
+              }
+            />
 
-            <div className="space-y-2">
-              <label className="block text-xs font-black text-slate-400 uppercase tracking-widest ml-1">
-                Confirm New Password
-              </label>
-              <input
-                type="password"
-                placeholder="••••••••"
-                className="w-full bg-[#f1f4f4] border-none rounded-2xl p-4 text-slate-700 placeholder:text-slate-300 focus:ring-2 focus:ring-[#00e5ff] outline-none transition-all font-medium"
+            {/* CONFIRM PASSWORD */}
+            <InputField
+              label="Confirm New Password"
+              type="password"
+              name="confirmPassword"
+              value={formData.confirmPassword}
+              onChange={handleChange}
+              placeholder="••••••••"
+            />
+
+            {/* REQUIREMENTS */}
+            <div className="bg-slate-50 rounded-2xl p-4 space-y-2">
+              <Requirement
+                text="At least 8 characters"
+                met={formData.password.length >= 8}
+              />
+              <Requirement
+                text="Passwords match"
+                met={
+                  formData.confirmPassword &&
+                  formData.password === formData.confirmPassword
+                }
               />
             </div>
 
-            {/* Password Requirements */}
-            <div className="bg-slate-50 rounded-2xl p-4 space-y-2">
-              <Requirement text="At least 8 characters" met />
-              <Requirement text="Include a special character" met={false} />
-            </div>
-
-            <button className="w-full bg-[#004d4d] text-white font-black py-5 rounded-2xl shadow-xl shadow-teal-900/10 hover:brightness-110 active:scale-[0.98] transition-all">
-              Update Password
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full bg-[#004d4d] text-white font-black py-5 rounded-2xl shadow-xl shadow-teal-900/10 hover:brightness-110 active:scale-[0.98] transition-all disabled:opacity-60 disabled:cursor-not-allowed"
+            >
+              {loading ? "Updating..." : "Update Password"}
             </button>
           </form>
         </div>

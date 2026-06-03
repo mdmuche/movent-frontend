@@ -2,6 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 
 import {
   registerRequest,
+  verifyEmailRequest,
   loginRequest,
   logoutRequest,
   forgotPasswordRequest,
@@ -19,6 +20,20 @@ export const registerUser = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(
         error.response?.data?.message || "Registration failed",
+      );
+    }
+  },
+);
+
+export const verifyEmail = createAsyncThunk(
+  "auth/verifyEmail",
+  async (token, { rejectWithValue }) => {
+    try {
+      const res = await verifyEmailRequest(token);
+      return res;
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data?.message || "Verification failed",
       );
     }
   },
