@@ -163,7 +163,7 @@ function Register() {
               </p>
             </div>
 
-            <button className="w-full bg-[#00e5ff] text-[#004d4d] font-black py-5 rounded-2xl flex items-center justify-center gap-2 shadow-lg shadow-cyan-100 hover:scale-[1.01] transition-transform">
+            <button className="w-full bg-[#00e5ff] text-[#004d4d] font-black py-5 rounded-2xl flex items-center justify-center gap-2 shadow-lg shadow-cyan-100 hover:scale-[1.01] transition-transform cursor-pointer">
               Create Account <ArrowRight size={20} />
             </button>
           </form>

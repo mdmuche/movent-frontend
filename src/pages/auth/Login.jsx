@@ -138,7 +138,7 @@ function Login() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-[#00e5ff] text-[#004d4d] font-black py-5 rounded-2xl shadow-lg shadow-cyan-200 hover:brightness-105 active:scale-[0.98] transition-all flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
+              className="w-full bg-[#00e5ff] text-[#004d4d] font-black py-5 rounded-2xl shadow-lg shadow-cyan-200 hover:brightness-105 active:scale-[0.98] transition-all flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer"
             >
               {loading ? "Logging in..." : "Login"}
             </button>
@@ -165,7 +165,7 @@ function Login() {
 
             <button className="flex items-center justify-center gap-3 bg-[#f1f4f4] hover:bg-slate-200 p-4 rounded-xl transition-colors group">
               <span className="text-[10px] font-black text-slate-900 uppercase tracking-widest">
-                Apple
+                Facebook
               </span>
             </button>
           </div>
