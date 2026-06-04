@@ -4,11 +4,10 @@ import MobileNav from "./MobileNav";
 
 function Navbar() {
   const navLinks = [
-    { name: "Explore", path: "/" },
+    { name: "Discover Events", path: "/events" },
     {
       name: "Create Event",
       path: "/create-event",
-      roles: ["organizer", "admin"],
     },
     { name: "Dashboard", path: "/dashboard", roles: ["attendee", "organizer"] },
     { name: "Admin Dashboard", path: "/admin-dashboard", roles: ["admin"] },

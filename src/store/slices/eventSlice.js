@@ -1,0 +1,84 @@
+import { createSlice } from "@reduxjs/toolkit";
+import {
+  fetchEvents,
+  fetchEvent,
+  fetchTrendingEvents,
+  fetchRecommendations,
+  fetchUpcomingEventsInHome,
+} from "../thunks/eventThunks";
+
+const initialState = {
+  events: [],
+  event: null,
+  trendingEvents: [],
+  recommendedEvents: [],
+  upcomingEvents: [],
+  upcomingEventsInHome: [],
+  pagination: null,
+
+  loading: false,
+  error: null,
+};
+
+const eventSlice = createSlice({
+  name: "events",
+  initialState,
+  reducers: {},
+
+  extraReducers: (builder) => {
+    builder
+
+      // ALL EVENTS
+      .addCase(fetchEvents.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchEvents.fulfilled, (state, action) => {
+        state.loading = false;
+        state.events = action.payload.events;
+        state.pagination = action.payload.pagination;
+      })
+      .addCase(fetchEvents.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+      // SINGLE EVENT
+      .addCase(fetchEvent.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchEvent.fulfilled, (state, action) => {
+        state.loading = false;
+        state.event = action.payload;
+      })
+      .addCase(fetchEvent.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+      // TRENDING
+      .addCase(fetchTrendingEvents.fulfilled, (state, action) => {
+        state.trendingEvents = action.payload.events;
+      })
+
+      // RECOMMENDATIONS
+      .addCase(fetchRecommendations.fulfilled, (state, action) => {
+        state.recommendedEvents = action.payload.events;
+      })
+
+      // UPCOMING EVENTS IN HOME
+      .addCase(fetchUpcomingEventsInHome.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchUpcomingEventsInHome.fulfilled, (state, action) => {
+        state.loading = false;
+        state.upcomingEventsInHome = action.payload;
+      })
+      .addCase(fetchUpcomingEventsInHome.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      });
+  },
+});
+
+export default eventSlice.reducer;

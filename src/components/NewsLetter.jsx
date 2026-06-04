@@ -1,6 +1,48 @@
 import { Mail } from "lucide-react";
+import { toast } from "react-toastify";
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { clearNewsletterState } from "../store/slices/newsletterSlice";
+import { subscribeNewsletter } from "../store/thunks/newsletterThunks";
 
 function Newsletter() {
+  const [email, setEmail] = useState("");
+
+  const dispatch = useDispatch();
+
+  const { loading, success, error, message } = useSelector(
+    (state) => state.newsletter,
+  );
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const resultAction = await dispatch(subscribeNewsletter(email));
+
+    if (subscribeNewsletter.fulfilled.match(resultAction)) {
+      setEmail("");
+    }
+  };
+
+  useEffect(() => {
+    if (success) {
+      toast.success(message);
+
+      setTimeout(() => {
+        dispatch(clearNewsletterState());
+      }, 3100);
+    }
+  }, [success, message, dispatch]);
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+      setTimeout(() => {
+        dispatch(clearNewsletterState());
+      }, 3100);
+    }
+  }, [error, dispatch]);
+
   return (
     <section className="px-4 sm:px-8 lg:px-20 py-20 bg-white">
       {/* Container with Teal Gradient */}
@@ -24,12 +66,14 @@ function Newsletter() {
 
         {/* Form Area */}
         <form
-          onSubmit={(e) => e.preventDefault()}
+          onSubmit={handleSubmit}
           className="flex flex-col md:flex-row items-stretch justify-center gap-4 max-w-2xl mx-auto"
         >
           <div className="relative flex-grow">
             <input
               type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               placeholder="Your architectural muse email..."
               className="w-full bg-white/5 border border-white/20 rounded-xl px-6 py-4 text-white placeholder:text-white/30 outline-none focus:border-cyan-400/50 focus:bg-white/10 transition-all"
               required
@@ -37,12 +81,12 @@ function Newsletter() {
           </div>
           <button
             type="submit"
+            disabled={loading}
             className="bg-cyan-400 hover:bg-cyan-500 text-[#002b2b] font-black py-4 px-10 rounded-xl transition-all active:scale-95 shadow-lg shadow-cyan-400/20 whitespace-nowrap"
           >
-            Subscribe
+            {loading ? "Subscribing..." : "Subscribe"}
           </button>
         </form>
-
         {/* Footer Text */}
         <p className="text-[10px] font-black text-white/30 uppercase tracking-[0.3em] mt-8">
           Zero Spam. Pure Inspiration. Weekly Curated Digests.

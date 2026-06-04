@@ -1,9 +1,9 @@
-import CategoryGrid from "../components/CategoryGrid";
-import Navbar from "../components/common/Navigation/Navbar";
-import Newsletter from "../components/NewsLetter";
-import UpcomingEvents from "../components/UpcomingEvents";
-import HeroSection from "../components/HeroSection";
-import Footer from "../components/common/Footer";
+import CategoryGrid from "../../components/CategoryGrid";
+import Navbar from "../../components/common/Navigation/Navbar";
+import Newsletter from "../../components/NewsLetter";
+import UpcomingEvents from "../../components/UpcomingEvents";
+import HeroSection from "../../components/HeroSection";
+import Footer from "../../components/common/Footer";
 
 function Home() {
   return (

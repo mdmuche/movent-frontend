@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
-import "./App.css";
-import Home from "./pages/Home";
+
+import Home from "./pages/public/Home";
 import NotFound from "./pages/NotFound";
 import Unauthorized from "./pages/Unauthorized";
 import { AdminGuard } from "./components/AdminGuard";
@@ -10,18 +10,22 @@ import Dashboard from "./pages/Dashboard";
 import Register from "./pages/auth/Register";
 import ForgotPassword from "./pages/auth/ForgotPassword";
 import ResetPassword from "./pages/auth/ResetPassword";
-import EventDetails from "./pages/EventDetails";
+import EventDetails from "./pages/public/EventDetails";
 import Checkout from "./pages/Checkout";
 import AdminDashboard from "./pages/Admin/AdminDashboard";
 import Login from "./pages/auth/Login";
 import Profile from "./pages/Profile";
 import VerifyEmail from "./pages/auth/VerifyEmail";
 
+import "./App.css";
+import Events from "./pages/public/Events";
+
 function App() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/events/:id" element={<EventDetails />} />
+      <Route path="/events/:slug" element={<EventDetails />} />
+      <Route path="/events" element={<Events />} />
       <Route path="/checkout/:id" element={<Checkout />} />
 
       <Route
