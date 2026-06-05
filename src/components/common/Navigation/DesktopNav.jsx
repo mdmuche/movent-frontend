@@ -19,11 +19,14 @@ function DesktopNav({ navLinks }) {
     return link.roles.includes(role);
   });
 
+  const regularLinks = filteredLinks.filter((link) => !link.button);
+  const buttonLinks = filteredLinks.filter((link) => link.button);
+
   return (
     <div className="hidden md:flex items-center justify-between w-full">
-      {/* LEFT NAV LINKS */}
+      {/* Left side */}
       <div className="flex items-center gap-8">
-        {filteredLinks.map((link) => (
+        {regularLinks.map((link) => (
           <Link
             key={link.path}
             to={link.path}
@@ -38,9 +41,19 @@ function DesktopNav({ navLinks }) {
         ))}
       </div>
 
-      {/* RIGHT ICONS */}
-      <div className="flex items-center gap-3">
+      {/* Right side */}
+      <div className="flex items-center gap-4">
         <NavIcons />
+
+        {buttonLinks.map((link) => (
+          <Link
+            key={link.path}
+            to={link.path}
+            className="bg-[#004d4d] text-white px-4 py-2 rounded-lg hover:bg-[#003a3a] transition-colors duration-300"
+          >
+            {link.name}
+          </Link>
+        ))}
       </div>
     </div>
   );

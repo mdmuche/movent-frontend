@@ -1,9 +1,13 @@
 import { Link } from "react-router-dom";
 import DesktopNav from "./DesktopNav";
 import MobileNav from "./MobileNav";
+import { useSelector } from "react-redux";
 
 function Navbar() {
+  const { isAuthenticated } = useSelector((state) => state.auth);
+
   const navLinks = [
+    { name: "Home", path: "/" },
     { name: "Discover Events", path: "/events" },
     {
       name: "Create Event",
@@ -11,6 +15,13 @@ function Navbar() {
     },
     { name: "Dashboard", path: "/dashboard", roles: ["attendee", "organizer"] },
     { name: "Admin Dashboard", path: "/admin-dashboard", roles: ["admin"] },
+  ];
+
+  const finalNavLinks = [
+    ...navLinks,
+    ...(!isAuthenticated
+      ? [{ name: "Get Started", path: "/login", button: true }]
+      : []),
   ];
 
   return (
@@ -23,9 +34,8 @@ function Navbar() {
           >
             <h1 className="">Movent</h1>
           </Link>
-
-          <DesktopNav navLinks={navLinks} />
-          <MobileNav navLinks={navLinks} />
+          <DesktopNav navLinks={finalNavLinks} />
+          <MobileNav navLinks={finalNavLinks} />
         </div>
       </nav>
       <div className="h-16 md:h-20" aria-hidden="true" />
