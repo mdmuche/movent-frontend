@@ -9,7 +9,7 @@ export const getAllEvents = (params) => {
   return api.get("/v1/event", { params: cleanParams });
 };
 
-export const getEvent = (slug) => api.get(`/v1/event/${slug}`);
+export const getEvent = () => api.get(`/v1/event/:slug`);
 
 export const getTrendingEvents = (params) =>
   api.get("/v1/event/trending", { params });
