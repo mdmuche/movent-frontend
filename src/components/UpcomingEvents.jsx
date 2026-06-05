@@ -57,7 +57,7 @@ function UpcomingEvents() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {upcomingEventsInHome?.map((event) => (
             <Link
-              to={`/event/${event.slug}`}
+              to={`/events/${event.slug}`}
               key={event._id}
               className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-xl transition-shadow duration-300"
             >
