@@ -14,7 +14,7 @@ import EventDetails from "./pages/public/EventDetails";
 import Checkout from "./pages/Checkout";
 import AdminDashboard from "./pages/Admin/AdminDashboard";
 import Login from "./pages/auth/Login";
-import Profile from "./pages/Profile";
+import Profile from "./pages/user/Profile";
 import VerifyEmail from "./pages/auth/VerifyEmail";
 
 import "./App.css";
@@ -40,9 +40,9 @@ function App() {
       <Route
         path="/profile"
         element={
-          <ProtectedRoute>
-            <Profile />
-          </ProtectedRoute>
+          // <ProtectedRoute>
+          <Profile />
+          // </ProtectedRoute>
         }
       />
 
