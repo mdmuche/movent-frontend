@@ -72,10 +72,21 @@ const authSlice = createSlice({
       })
 
       // LOGOUT
-      .addCase(logoutUser.fulfilled, (state) => {
-        state.user = null;
+      .addCase(logoutUser.pending, (state) => {
+        state.loading = true;
+      })
 
+      .addCase(logoutUser.fulfilled, (state) => {
+        state.loading = false;
+
+        state.user = null;
         state.isAuthenticated = false;
+        state.authError = null;
+      })
+
+      .addCase(logoutUser.rejected, (state, action) => {
+        state.loading = false;
+        state.authError = action.payload;
       })
 
       // FORGOT PASSWORD

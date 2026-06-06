@@ -27,3 +27,15 @@ export const updateUserLanguage = (payload) =>
 
 // ACCOUNT
 export const closeUserAccount = () => api.delete("/v1/user/account");
+
+// PROFILE PICTURE
+export const updateUserProfilePicture = (file) => {
+  const formData = new FormData();
+  formData.append("profilePicture", file);
+
+  return api.patch("/v1/user/profile/picture", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+};

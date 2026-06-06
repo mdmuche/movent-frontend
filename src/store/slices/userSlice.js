@@ -10,6 +10,7 @@ import {
   updateNotifications,
   updateLanguage,
   closeAccount,
+  updateProfilePicture,
 } from "../thunks/userThunks";
 
 const initialState = {
@@ -153,6 +154,27 @@ const userSlice = createSlice({
         state.profile = action.payload;
       })
       .addCase(updateProfile.rejected, (state, action) => {
+        state.actionLoading = false;
+        state.error = action.payload;
+      })
+      .addCase(updateProfilePicture.pending, (state) => {
+        state.actionLoading = true;
+      })
+
+      // ======================
+      // UPDATE PROFILE PICTURE
+      // ======================
+      .addCase(updateProfilePicture.fulfilled, (state, action) => {
+        state.actionLoading = false;
+
+        if (state.profile) {
+          state.profile.user = {
+            ...state.profile.user,
+            ...action.payload.data.user,
+          };
+        }
+      })
+      .addCase(updateProfilePicture.rejected, (state, action) => {
         state.actionLoading = false;
         state.error = action.payload;
       })

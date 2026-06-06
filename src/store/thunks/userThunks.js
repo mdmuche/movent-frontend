@@ -2,6 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import {
   getUserProfile,
   updateUserProfile,
+  updateUserProfilePicture,
   getDashboard,
   getSavedEvents,
   toggleSavedEvent,
@@ -82,6 +83,19 @@ export const updateProfile = createAsyncThunk(
   async (payload, { rejectWithValue }) => {
     try {
       const { data } = await updateUserProfile(payload);
+      return data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.message);
+    }
+  },
+);
+
+// Update profile picture
+export const updateProfilePicture = createAsyncThunk(
+  "user/updateProfilePicture",
+  async (file, { rejectWithValue }) => {
+    try {
+      const { data } = await updateUserProfilePicture(file);
       return data;
     } catch (err) {
       return rejectWithValue(err.response?.data?.message);

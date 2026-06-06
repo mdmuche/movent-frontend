@@ -1,4 +1,4 @@
-function ToggleRow({ label, sub, active }) {
+function ToggleRow({ label, sub, active, onToggle }) {
   return (
     <div className="flex items-center justify-between py-2">
       <div>
@@ -9,6 +9,7 @@ function ToggleRow({ label, sub, active }) {
       </div>
       <div
         className={`w-12 h-6 rounded-full relative transition-colors cursor-pointer ${active ? "bg-[#00e5ff]" : "bg-slate-200"}`}
+        onClick={() => onToggle(!active)}
       >
         <div
           className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-all ${active ? "right-1" : "left-1"}`}

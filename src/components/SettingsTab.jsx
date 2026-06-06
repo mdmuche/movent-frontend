@@ -1,13 +1,14 @@
 import { ChevronRight } from "lucide-react";
 
-function SettingsTab({ icon, label, active, variant }) {
+function SettingsTab({ icon, label, active, variant, onClick }) {
   return (
     <button
-      className={`w-full flex items-center justify-between p-4 rounded-2xl transition-all ${
+      className={`w-full flex items-center justify-between p-4 rounded-2xl transition-all cursor-pointer ${
         active
           ? "bg-[#e6f4f4] text-[#004d4d]"
           : "text-slate-400 hover:bg-slate-50"
       }`}
+      onClick={onClick}
     >
       <div
         className={`flex items-center gap-4 ${variant === "danger" ? "text-red-500" : ""}`}
