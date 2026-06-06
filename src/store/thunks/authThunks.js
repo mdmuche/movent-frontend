@@ -7,6 +7,7 @@ import {
   logoutRequest,
   forgotPasswordRequest,
   resetPasswordRequest,
+  getCurrentUserRequest,
 } from "../../api/authApi";
 
 export const registerUser = createAsyncThunk(
@@ -96,6 +97,18 @@ export const resetPassword = createAsyncThunk(
       return response;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || "Failed");
+    }
+  },
+);
+
+export const fetchCurrentUser = createAsyncThunk(
+  "auth/fetchCurrentUser",
+  async (_, { rejectWithValue }) => {
+    try {
+      const { data } = await getCurrentUserRequest();
+      return data.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.message);
     }
   },
 );

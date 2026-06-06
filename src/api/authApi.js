@@ -43,3 +43,8 @@ export const refreshTokenRequest = async () => {
 
   return response.data;
 };
+
+export const getCurrentUserRequest = async () => {
+  const response = await api.get("/v1/user/profile");
+  return response.data;
+};

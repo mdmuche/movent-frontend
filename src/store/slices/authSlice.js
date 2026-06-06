@@ -6,18 +6,16 @@ import {
   logoutUser,
   forgotPassword,
   resetPassword,
+  fetchCurrentUser,
 } from "../thunks/authThunks";
 
 const initialState = {
   user: null,
-
   loading: false,
-
   isAuthenticated: false,
-
   authError: null,
-
   forgotPasswordStatus: "idle",
+  authChecked: false,
 };
 
 const authSlice = createSlice({
@@ -105,6 +103,19 @@ const authSlice = createSlice({
       // RESET PASSWORD
       .addCase(resetPassword.fulfilled, (state) => {
         state.forgotPasswordStatus = "reset_success";
+      })
+
+      // FETCH CURRENT USER
+      .addCase(fetchCurrentUser.fulfilled, (state, action) => {
+        state.isAuthenticated = true;
+        state.user = action.payload;
+        state.authChecked = true;
+      })
+
+      .addCase(fetchCurrentUser.rejected, (state) => {
+        state.isAuthenticated = false;
+        state.user = null;
+        state.authChecked = true;
       });
   },
 });

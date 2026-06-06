@@ -20,7 +20,17 @@ import VerifyEmail from "./pages/auth/VerifyEmail";
 import "./App.css";
 import Events from "./pages/public/Events";
 
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { fetchCurrentUser } from "./store/thunks/authThunks";
+
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchCurrentUser());
+  }, [dispatch]);
+
   return (
     <Routes>
       <Route path="/" element={<Home />} />
