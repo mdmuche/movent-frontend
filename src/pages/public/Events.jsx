@@ -47,13 +47,13 @@ function Events() {
               placeholder="Search events..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full rounded-xl border p-4 outline-none"
+              className="w-full rounded-xl p-4 outline-none"
             />
 
             <select
               value={category}
               onChange={(e) => setCategory(e.target.value)}
-              className="w-full rounded-xl border p-4 outline-none"
+              className="w-full rounded-xl p-4 outline-none"
             >
               <option value="">All Categories</option>
               <option value="music">Music</option>
@@ -85,7 +85,7 @@ function Events() {
                   <Link
                     key={event._id}
                     to={`/events/${event.slug}`}
-                    className="group bg-white border rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition"
+                    className="group bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition"
                   >
                     <img
                       src={event.bannerImage?.secure_url}
