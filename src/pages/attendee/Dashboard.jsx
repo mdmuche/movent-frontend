@@ -10,11 +10,11 @@ import {
   CheckCircle2,
   Mail,
 } from "lucide-react";
-import SideBar from "../components/SideBar";
-import Navbar from "../components/common/Navigation/Navbar";
-import { recentActivity, upcomingEvents } from "../data/moventData";
+import SideBar from "../../components/SideBar";
+import Navbar from "../../components/common/Navigation/Navbar";
+import { recentActivity, upcomingEvents } from "../../data/moventData";
 import { Link } from "react-router-dom";
-import Footer from "../components/common/Footer";
+import Footer from "../../components/common/Footer";
 
 const IconRenderer = ({ type }) => {
   switch (type) {

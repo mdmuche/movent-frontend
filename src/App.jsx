@@ -1,28 +1,39 @@
-import { Route, Routes } from "react-router-dom";
-
-import Home from "./pages/public/Home";
-import NotFound from "./pages/NotFound";
-import Unauthorized from "./pages/Unauthorized";
-import { AdminGuard } from "./components/AdminGuard";
-import ProtectedRoute from "./components/ProtectedRoute";
-import CreateEvent from "./pages/CreateEvent";
-import Dashboard from "./pages/Dashboard";
-import Register from "./pages/auth/Register";
-import ForgotPassword from "./pages/auth/ForgotPassword";
-import ResetPassword from "./pages/auth/ResetPassword";
-import EventDetails from "./pages/public/EventDetails";
-import Checkout from "./pages/Checkout";
-import AdminDashboard from "./pages/Admin/AdminDashboard";
-import Login from "./pages/auth/Login";
-import Profile from "./pages/user/Profile";
-import VerifyEmail from "./pages/auth/VerifyEmail";
-
-import "./App.css";
-import Events from "./pages/public/Events";
-
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
+import { Route, Routes } from "react-router-dom";
 import { fetchCurrentUser } from "./store/thunks/authThunks";
+
+// public  routes
+import Home from "./pages/public/Home";
+import Events from "./pages/public/Events";
+import EventDetails from "./pages/public/EventDetails";
+
+// auth guards
+import ProtectedRoute from "./components/ProtectedRoute";
+import { AdminGuard } from "./components/AdminGuard";
+
+// auth routes
+import Register from "./pages/auth/Register";
+import VerifyEmail from "./pages/auth/VerifyEmail";
+import Login from "./pages/auth/Login";
+import ForgotPassword from "./pages/auth/ForgotPassword";
+import ResetPassword from "./pages/auth/ResetPassword";
+
+// attendee routes
+import Dashboard from "./pages/attendee/Dashboard";
+import Profile from "./pages/attendee/Profile";
+import Checkout from "./pages/Checkout";
+
+import NotFound from "./pages/NotFound";
+import Unauthorized from "./pages/Unauthorized";
+
+//organizer
+import CreateEvent from "./pages/CreateEvent";
+
+//adminroutes
+import AdminDashboard from "./pages/Admin/AdminDashboard";
+
+import "./App.css";
 
 function App() {
   const dispatch = useDispatch();
