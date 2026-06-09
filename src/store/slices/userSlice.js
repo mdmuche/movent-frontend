@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 import {
-  fetchDashboard,
+  fetchUserDashboard,
   fetchSavedEvents,
   fetchUserActivity,
   fetchUserProfile,
@@ -22,9 +22,11 @@ const initialState = {
     email: "",
     bio: "",
   },
-  dashboard: null,
+  userDashboard: null,
   savedEvents: [],
   activity: [],
+  activityPagination: {},
+  activityLoading: false,
   loading: false,
   actionLoading: false,
   error: null,
@@ -53,7 +55,7 @@ const userSlice = createSlice({
     },
     clearUserState: (state) => {
       state.profile = null;
-      state.dashboard = null;
+      state.userDashboard = null;
       state.savedEvents = [];
       state.activity = [];
       state.loading = false;
@@ -102,14 +104,14 @@ const userSlice = createSlice({
       // ======================
       // DASHBOARD
       // ======================
-      .addCase(fetchDashboard.pending, (state) => {
+      .addCase(fetchUserDashboard.pending, (state) => {
         state.loading = true;
       })
-      .addCase(fetchDashboard.fulfilled, (state, action) => {
+      .addCase(fetchUserDashboard.fulfilled, (state, action) => {
         state.loading = false;
-        state.dashboard = action.payload;
+        state.userDashboard = action.payload;
       })
-      .addCase(fetchDashboard.rejected, (state, action) => {
+      .addCase(fetchUserDashboard.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })
@@ -146,14 +148,17 @@ const userSlice = createSlice({
       // ACTIVITY
       // ======================
       .addCase(fetchUserActivity.pending, (state) => {
-        state.loading = true;
+        state.activityLoading = true;
       })
+
       .addCase(fetchUserActivity.fulfilled, (state, action) => {
-        state.loading = false;
-        state.activity = action.payload;
+        state.activityLoading = false;
+        state.activity = action.payload.activities;
+        state.activityPagination = action.payload.pagination;
       })
+
       .addCase(fetchUserActivity.rejected, (state, action) => {
-        state.loading = false;
+        state.activityLoading = false;
         state.error = action.payload;
       })
 
@@ -236,7 +241,7 @@ const userSlice = createSlice({
       .addCase(closeAccount.fulfilled, (state) => {
         state.actionLoading = false;
         state.profile = null;
-        state.dashboard = null;
+        state.userDashboard = null;
         state.savedEvents = [];
         state.activity = [];
       })

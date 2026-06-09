@@ -22,6 +22,7 @@ import ResetPassword from "./pages/auth/ResetPassword";
 // attendee routes
 import Profile from "./pages/attendee/Profile";
 import Dashboard from "./pages/attendee/Dashboard";
+import UpcomingEvents from "./pages/attendee/UpcomingEvents";
 import Checkout from "./pages/Checkout";
 
 import NotFound from "./pages/NotFound";
@@ -47,6 +48,7 @@ function App() {
       <Route path="/" element={<Home />} />
       <Route path="/events/:slug" element={<EventDetails />} />
       <Route path="/events" element={<Events />} />
+      <Route path="/upcoming-events" element={<UpcomingEvents />} />
       <Route path="/checkout/:id" element={<Checkout />} />
 
       <Route

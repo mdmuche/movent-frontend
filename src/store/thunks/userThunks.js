@@ -27,7 +27,7 @@ export const fetchUserProfile = createAsyncThunk(
   },
 );
 // Fetch user dashboard data
-export const fetchDashboard = createAsyncThunk(
+export const fetchUserDashboard = createAsyncThunk(
   "user/fetchDashboard",
   async (_, { rejectWithValue }) => {
     try {

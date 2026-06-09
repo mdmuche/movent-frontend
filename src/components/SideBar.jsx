@@ -1,4 +1,5 @@
 import { BarChart3, Calendar, Settings, Ticket } from "lucide-react";
+import { Link } from "react-router-dom";
 
 function SideBar() {
   return (
@@ -8,16 +9,18 @@ function SideBar() {
       </div>
 
       <nav className="space-y-2">
-        <button className="w-full flex items-center gap-3 px-4 py-3 bg-[#004d4d] text-white rounded-xl font-bold transition-all">
+        <button className="w-full flex items-center gap-3 px-4 py-3 bg-[#004d4d] text-white rounded-xl font-bold transition-all cursor-pointer">
           <Ticket size={20} /> My Tickets
         </button>
-        <button className="w-full flex items-center gap-3 px-4 py-3 text-gray-500 hover:bg-gray-50 rounded-xl transition-all">
-          <Calendar size={20} /> My Events
-        </button>
-        <button className="w-full flex items-center gap-3 px-4 py-3 text-gray-500 hover:bg-gray-50 rounded-xl transition-all">
+        <Link to="/upcoming-events">
+          <button className="w-full flex items-center gap-3 px-4 py-3 text-gray-500 hover:bg-gray-50 rounded-xl transition-all cursor-pointer">
+            <Calendar size={20} /> My Events
+          </button>
+        </Link>
+        <button className="w-full flex items-center gap-3 px-4 py-3 text-gray-500 hover:bg-gray-50 rounded-xl transition-all cursor-pointer">
           <BarChart3 size={20} /> Analytics
         </button>
-        <button className="w-full flex items-center gap-3 px-4 py-3 text-gray-500 hover:bg-gray-50 rounded-xl transition-all">
+        <button className="w-full flex items-center gap-3 px-4 py-3 text-gray-500 hover:bg-gray-50 rounded-xl transition-all cursor-pointer">
           <Settings size={20} /> Settings
         </button>
       </nav>

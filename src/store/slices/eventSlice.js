@@ -5,6 +5,7 @@ import {
   fetchTrendingEvents,
   fetchRecommendations,
   fetchUpcomingEventsInHome,
+  fetchUpcomingEvents,
 } from "../thunks/eventThunks";
 
 const initialState = {
@@ -13,6 +14,8 @@ const initialState = {
   trendingEvents: [],
   recommendedEvents: [],
   upcomingEvents: [],
+  upcomingEventsPagination: {},
+  upcomingEventsLoading: false,
   upcomingEventsInHome: [],
   pagination: null,
 
@@ -55,7 +58,22 @@ const eventSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
+      // UPCOMING EVENTS
+      .addCase(fetchUpcomingEvents.pending, (state) => {
+        state.upcomingEventsLoading = true;
+        state.error = null;
+      })
 
+      .addCase(fetchUpcomingEvents.fulfilled, (state, action) => {
+        state.upcomingEvents = action.payload.events;
+        state.upcomingEventsPagination = action.payload.pagination;
+        state.upcomingEventsLoading = false;
+      })
+
+      .addCase(fetchUpcomingEvents.rejected, (state, action) => {
+        state.upcomingEventsLoading = false;
+        state.error = action.payload;
+      })
       // TRENDING
       .addCase(fetchTrendingEvents.fulfilled, (state, action) => {
         state.trendingEvents = action.payload.events;

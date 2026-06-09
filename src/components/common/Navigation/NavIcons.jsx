@@ -1,11 +1,11 @@
 import { Bell } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-
 import UserIcon from "../UserIcon";
 
 function NavIcons() {
   const { isAuthenticated } = useSelector((state) => state.user);
+  const { profile } = useSelector((state) => state.user);
 
   if (!isAuthenticated) return null;
 
@@ -16,7 +16,15 @@ function NavIcons() {
       </button>
 
       <Link to="/profile">
-        <UserIcon />
+        {profile?.user?.profilePicture ? (
+          <img
+            src={profile.user.profilePicture}
+            alt={profile.user.fullName}
+            className="w-9 h-9 rounded-full object-cover border border-gray-200"
+          />
+        ) : (
+          <UserIcon />
+        )}
       </Link>
     </>
   );
