@@ -12,7 +12,7 @@ function SideBar() {
         <button className="w-full flex items-center gap-3 px-4 py-3 bg-[#004d4d] text-white rounded-xl font-bold transition-all cursor-pointer">
           <Ticket size={20} /> My Tickets
         </button>
-        <Link to="/upcoming-events">
+        <Link to="/organizer-events">
           <button className="w-full flex items-center gap-3 px-4 py-3 text-gray-500 hover:bg-gray-50 rounded-xl transition-all cursor-pointer">
             <Calendar size={20} /> My Events
           </button>

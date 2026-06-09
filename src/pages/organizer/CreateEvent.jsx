@@ -10,12 +10,12 @@ import {
   Lightbulb,
   Users,
 } from "lucide-react";
-import Navbar from "../components/common/Navigation/Navbar";
-import Footer from "../components/common/Footer";
+import Navbar from "../../components/common/Navigation/Navbar";
+import Footer from "../../components/common/Footer";
 // import CategoryBtn from "../components/CategoryBtn";
-import StepItem from "../components/StepItem";
-import InputField from "../components/InputField";
-import { createEvent } from "../store/thunks/organizerThunks";
+import StepItem from "../../components/StepItem";
+import InputField from "../../components/InputField";
+import { createEvent } from "../../store/thunks/organizerThunks";
 
 const CreateEvent = () => {
   const [formData, setFormData] = useState({

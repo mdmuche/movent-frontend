@@ -1,15 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
   createEvent,
+  deleteEvent,
   fetchOrganizerAnalytics,
   fetchOrganizerDashboard,
+  updateEvent,
 } from "../thunks/organizerThunks";
 
 const initialState = {
   loading: false,
 
   // dashboard data
-  dashboard: null,
+  organizerDashboard: null,
   dashboardLoading: false,
 
   // organizer analytics
@@ -52,7 +54,7 @@ const organizerSlice = createSlice({
       })
       .addCase(fetchOrganizerDashboard.fulfilled, (state, action) => {
         state.dashboardLoading = false;
-        state.dashboard = action.payload;
+        state.organizerDashboard = action.payload;
       })
       .addCase(fetchOrganizerDashboard.rejected, (state, action) => {
         state.dashboardLoading = false;
@@ -71,6 +73,27 @@ const organizerSlice = createSlice({
       .addCase(fetchOrganizerAnalytics.rejected, (state, action) => {
         state.analyticsLoading = false;
         state.error = action.payload;
+      })
+
+      // UPDATE EVENT
+      .addCase(updateEvent.fulfilled, (state, action) => {
+        const updatedEvent = action.payload;
+
+        const events = state.organizerDashboard.myEvents;
+
+        const index = events.findIndex((e) => e._id === updatedEvent._id);
+
+        if (index !== -1) {
+          events[index] = updatedEvent;
+        }
+      })
+
+      // DELETE EVENT
+      .addCase(deleteEvent.fulfilled, (state, action) => {
+        const id = action.payload;
+
+        state.organizerDashboard.myEvents =
+          state.organizerDashboard.myEvents.filter((event) => event._id !== id);
       });
   },
 });

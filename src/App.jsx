@@ -22,19 +22,20 @@ import ResetPassword from "./pages/auth/ResetPassword";
 // attendee routes
 import Profile from "./pages/attendee/Profile";
 import Dashboard from "./pages/attendee/Dashboard";
-import UpcomingEvents from "./pages/attendee/UpcomingEvents";
+import OrganizerEvents from "./pages/organizer/OrganizerEvents";
 import Checkout from "./pages/Checkout";
 
 import NotFound from "./pages/NotFound";
 import Unauthorized from "./pages/Unauthorized";
 
 //organizer
-import CreateEvent from "./pages/CreateEvent";
+import CreateEvent from "./pages/organizer/CreateEvent";
 
 //adminroutes
 import AdminDashboard from "./pages/Admin/AdminDashboard";
 
 import "./App.css";
+import EditEvent from "./pages/organizer/EditEvent";
 
 function App() {
   const dispatch = useDispatch();
@@ -45,17 +46,41 @@ function App() {
 
   return (
     <Routes>
+      {/* public routes */}
       <Route path="/" element={<Home />} />
       <Route path="/events/:slug" element={<EventDetails />} />
       <Route path="/events" element={<Events />} />
-      <Route path="/upcoming-events" element={<UpcomingEvents />} />
-      <Route path="/checkout/:id" element={<Checkout />} />
 
+      {/* Protected Route */}
+      <Route
+        path="/organizer-events"
+        element={
+          <ProtectedRoute>
+            <OrganizerEvents />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/checkout/:id"
+        element={
+          <ProtectedRoute>
+            <Checkout />
+          </ProtectedRoute>
+        }
+      />
       <Route
         path="/create-event"
         element={
           <ProtectedRoute>
             <CreateEvent />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/update/:id"
+        element={
+          <ProtectedRoute>
+            <EditEvent />
           </ProtectedRoute>
         }
       />
@@ -68,7 +93,6 @@ function App() {
           </ProtectedRoute>
         }
       />
-
       <Route
         path="/dashboard"
         element={
