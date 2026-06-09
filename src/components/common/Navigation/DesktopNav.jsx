@@ -5,9 +5,10 @@ import NavIcons from "./NavIcons";
 
 // 1. Desktop Navigation Component
 function DesktopNav({ navLinks }) {
-  const { user, isAuthenticated } = useSelector((state) => state.auth);
-
-  const role = user?.role;
+  const { profile, isAuthenticated } = useSelector((state) => state.user);
+  console.log(profile?.user);
+  const role = profile?.user?.role || null;
+  console.log(profile?.user.role);
   const location = useLocation();
 
   // FILTER LINKS BASED ON ROLE

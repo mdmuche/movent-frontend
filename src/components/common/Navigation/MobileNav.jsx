@@ -8,8 +8,8 @@ function MobileNav({ navLinks }) {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
 
-  const { user, isAuthenticated } = useSelector((state) => state.auth);
-  const role = user?.role;
+  const { profile, isAuthenticated } = useSelector((state) => state.user);
+  const role = profile?.user?.role || null;
 
   const filteredLinks = navLinks.filter((link) => {
     if (!link.roles) return true;

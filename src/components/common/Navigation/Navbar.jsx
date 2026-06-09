@@ -4,7 +4,7 @@ import MobileNav from "./MobileNav";
 import { useSelector } from "react-redux";
 
 function Navbar() {
-  const { isAuthenticated } = useSelector((state) => state.auth);
+  const { isAuthenticated } = useSelector((state) => state.user);
 
   const navLinks = [
     { name: "Home", path: "/" },

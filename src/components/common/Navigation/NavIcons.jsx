@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import UserIcon from "../UserIcon";
 
 function NavIcons() {
-  const { isAuthenticated } = useSelector((state) => state.auth);
+  const { isAuthenticated } = useSelector((state) => state.user);
 
   if (!isAuthenticated) return null;
 

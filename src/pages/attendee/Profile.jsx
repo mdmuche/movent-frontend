@@ -9,12 +9,11 @@ import {
   Camera,
 } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { toast } from "react-toastify";
 
 import {
   closeAccount,
-  fetchUserProfile,
   updateLanguage,
   updateNotifications,
   updateProfile,
@@ -42,10 +41,6 @@ function Profile() {
     loading,
     actionLoading,
   } = useSelector((state) => state.user);
-
-  useEffect(() => {
-    dispatch(fetchUserProfile());
-  }, [dispatch]);
 
   // Initialize profile draft when profile data is loaded
   const handleDraftChange = (e) => {
@@ -113,7 +108,6 @@ function Profile() {
 
   const handleLogout = async () => {
     try {
-      console.log("User logged out successfully");
       await dispatch(logoutUser()).unwrap();
       dispatch(clearUserState());
 

@@ -9,11 +9,14 @@ import {
   CassetteTape,
   Landmark,
 } from "lucide-react";
+import { toast } from "react-toastify";
 import Navbar from "../../components/common/Navigation/Navbar";
 import Footer from "../../components/common/Footer";
 import { useNavigate, useParams } from "react-router-dom";
 import VenueMap from "../../components/VenueMap";
 import { getEvent } from "../../api/eventApi";
+import { useDispatch } from "react-redux";
+import { toggleSaveEvent } from "../../store/thunks/userThunks";
 
 const fakeCoords = {
   lagos: { lat: 6.5244, lng: 3.3792 },
@@ -23,6 +26,21 @@ const fakeCoords = {
 };
 
 function EventDetails() {
+  const [saved, setSaved] = useState(false);
+  const dispatch = useDispatch();
+
+  const handleSaveEvent = async () => {
+    try {
+      console.log("EVENT ID:", event?._id);
+      const res = await dispatch(toggleSaveEvent(event._id)).unwrap();
+      console.log("SAVE RESPONSE:", res);
+
+      setSaved(res.includes(event._id));
+    } catch (err) {
+      toast.error(err || "Failed to save event");
+    }
+  };
+
   const getCoords = () => {
     if (!event) return fakeCoords.default;
 
@@ -89,8 +107,16 @@ function EventDetails() {
               <button className="p-3 bg-white/10 backdrop-blur-md rounded-full text-white hover:bg-white/20 transition-all">
                 <Share2 size={20} />
               </button>
-              <button className="p-3 bg-white/10 backdrop-blur-md rounded-full text-white hover:bg-red-500/80 transition-all">
-                <Heart size={20} />
+              <button
+                onClick={handleSaveEvent}
+                className={`p-3 backdrop-blur-md rounded-full transition-all cursor-pointer
+                ${
+                  saved
+                    ? "bg-red-500/80 text-white"
+                    : "bg-white/10 text-white hover:bg-red-500/80"
+                }`}
+              >
+                <Heart size={20} fill={saved ? "currentColor" : "none"} />
               </button>
             </div>
 

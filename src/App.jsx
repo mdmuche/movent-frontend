@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Route, Routes } from "react-router-dom";
-import { fetchCurrentUser } from "./store/thunks/authThunks";
+import { fetchUserProfile } from "./store/thunks/userThunks";
 
 // public  routes
 import Home from "./pages/public/Home";
@@ -20,8 +20,8 @@ import ForgotPassword from "./pages/auth/ForgotPassword";
 import ResetPassword from "./pages/auth/ResetPassword";
 
 // attendee routes
-import Dashboard from "./pages/attendee/Dashboard";
 import Profile from "./pages/attendee/Profile";
+import Dashboard from "./pages/attendee/Dashboard";
 import Checkout from "./pages/Checkout";
 
 import NotFound from "./pages/NotFound";
@@ -39,7 +39,7 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchCurrentUser());
+    dispatch(fetchUserProfile());
   }, [dispatch]);
 
   return (

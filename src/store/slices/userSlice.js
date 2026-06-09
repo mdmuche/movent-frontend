@@ -15,6 +15,8 @@ import {
 
 const initialState = {
   profile: null,
+  isAuthenticated: false,
+  authChecked: false,
   profileDraft: {
     fullName: "",
     email: "",
@@ -81,6 +83,8 @@ const userSlice = createSlice({
       .addCase(fetchUserProfile.fulfilled, (state, action) => {
         state.loading = false;
         state.profile = action.payload;
+        state.isAuthenticated = true;
+        state.authChecked = true;
 
         state.profileDraft = {
           fullName: action.payload.user?.fullName || "",
@@ -91,6 +95,8 @@ const userSlice = createSlice({
       .addCase(fetchUserProfile.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+        state.isAuthenticated = false;
+        state.authChecked = true;
       })
 
       // ======================
@@ -125,7 +131,15 @@ const userSlice = createSlice({
 
       // toggle save
       .addCase(toggleSaveEvent.fulfilled, (state, action) => {
-        state.savedEvents = action.payload;
+        const eventId = action.meta.arg;
+
+        const exists = state.savedEvents.includes(eventId);
+
+        if (exists) {
+          state.savedEvents = state.savedEvents.filter((id) => id !== eventId);
+        } else {
+          state.savedEvents.push(eventId);
+        }
       })
 
       // ======================
