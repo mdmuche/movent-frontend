@@ -9,11 +9,17 @@ import SideBar from "../../components/SideBar";
 import { fetchMyTickets } from "../../store/thunks/ticketThunks";
 import { fetchSavedEvents } from "../../store/thunks/userThunks";
 
+//todo (later hooks)
+// import { cancelCheckout } from "../../store/thunks/checkoutThunks";
+
 function MyEvents() {
   const dispatch = useDispatch();
 
   const [activeTab, setActiveTab] = useState("tickets");
   const [page, setPage] = useState(1);
+
+  const [selectedEvent, setSelectedEvent] = useState(null);
+  const [search, setSearch] = useState("");
 
   const { tickets, pagination, loading } = useSelector((state) => state.ticket);
 
@@ -21,7 +27,6 @@ function MyEvents() {
     (state) => state.user,
   );
 
-  // FETCH DATA (depends on tab + page)
   useEffect(() => {
     if (activeTab === "tickets") {
       dispatch(fetchMyTickets({ page, limit: 10 }));
@@ -37,7 +42,37 @@ function MyEvents() {
       ? pagination?.totalPages || 1
       : savedEvents?.pagination?.totalPages || 1;
 
-  const data = activeTab === "tickets" ? tickets : savedEvents?.savedEvents;
+  /**
+   * GROUP TICKETS BY EVENT TITLE + VENUE
+   */
+  const groupedEvents =
+    activeTab === "tickets"
+      ? Object.values(
+          (tickets || []).reduce((acc, ticket) => {
+            const key = `${ticket.event?.title}-${ticket.event?.venue}`;
+
+            if (!acc[key]) {
+              acc[key] = {
+                event: ticket.event,
+                tickets: [],
+              };
+            }
+
+            acc[key].tickets.push(ticket);
+            return acc;
+          }, {}),
+        )
+      : savedEvents?.savedEvents;
+
+  /**
+   * FILTER TICKETS INSIDE SELECTED EVENT
+   */
+  const filteredTickets =
+    selectedEvent?.tickets?.filter((t) =>
+      `${t.reference} ${t.ticketType}`
+        .toLowerCase()
+        .includes(search.toLowerCase()),
+    ) || [];
 
   return (
     <>
@@ -61,6 +96,7 @@ function MyEvents() {
               onClick={() => {
                 setActiveTab("tickets");
                 setPage(1);
+                setSelectedEvent(null);
               }}
               className={`flex items-center gap-2 px-5 py-3 rounded-xl font-bold ${
                 activeTab === "tickets"
@@ -76,6 +112,7 @@ function MyEvents() {
               onClick={() => {
                 setActiveTab("saved");
                 setPage(1);
+                setSelectedEvent(null);
               }}
               className={`flex items-center gap-2 px-5 py-3 rounded-xl font-bold ${
                 activeTab === "saved"
@@ -91,37 +128,37 @@ function MyEvents() {
           {/* CONTENT */}
           {isLoading ? (
             <p>Loading...</p>
-          ) : data?.length ? (
+          ) : groupedEvents?.length ? (
             <>
-              {/* TICKETS (CARD UI) */}
-              {activeTab === "tickets" && (
+              {/* EVENTS LIST */}
+              {!selectedEvent && activeTab === "tickets" && (
                 <div className="space-y-4">
-                  {data.map((ticket) => (
-                    <div key={ticket._id} className="bg-white rounded-3xl p-5">
+                  {groupedEvents.map((group, index) => (
+                    <div
+                      key={index}
+                      className="bg-white rounded-3xl p-5 cursor-pointer hover:shadow"
+                      onClick={() => setSelectedEvent(group)}
+                    >
                       <h2 className="font-black text-lg">
-                        {ticket.event?.title}
+                        {group.event?.title}
                       </h2>
 
                       <p className="text-sm text-slate-500 mt-1">
-                        {ticket.event?.venue}
+                        {group.event?.venue}
                       </p>
 
-                      <p className="text-sm text-slate-500 mt-1">
-                        {ticket.reference}
+                      <p className="text-xs text-slate-400 mt-3">
+                        {group.tickets.length} ticket(s)
                       </p>
-
-                      <span className="inline-block mt-3 px-3 py-1 text-xs bg-cyan-50 text-cyan-600 rounded-full">
-                        {ticket.ticketType}
-                      </span>
                     </div>
                   ))}
                 </div>
               )}
 
-              {/* SAVED EVENTS (LIST UI) */}
+              {/* SAVED EVENTS */}
               {activeTab === "saved" && (
                 <div className="space-y-3">
-                  {data.map((event) => (
+                  {groupedEvents.map((event) => (
                     <div
                       key={event._id}
                       className="flex items-center justify-between bg-white p-4 rounded-2xl"
@@ -141,8 +178,57 @@ function MyEvents() {
                 </div>
               )}
 
-              {/* PAGINATION (SHARED) */}
-              {totalPages > 1 && (
+              {/* SELECTED EVENT DETAILS */}
+              {selectedEvent && (
+                <div className="bg-white rounded-3xl p-5 mt-6">
+                  <button
+                    onClick={() => setSelectedEvent(null)}
+                    className="text-sm text-[#004d4d] font-bold mb-4"
+                  >
+                    ← Back
+                  </button>
+
+                  <h2 className="font-black text-xl">
+                    {selectedEvent.event.title}
+                  </h2>
+
+                  <p className="text-slate-500">{selectedEvent.event.venue}</p>
+
+                  {/* SEARCH */}
+                  <input
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    placeholder="Search by reference or ticket type"
+                    className="w-full mt-4 border p-3 rounded-xl"
+                  />
+
+                  {/* TICKETS LIST */}
+                  <div className="mt-4 space-y-3">
+                    {filteredTickets.map((t) => (
+                      <div key={t._id} className="shadow-md rounded-xl p-3">
+                        <p className="font-bold">{t.reference}</p>
+
+                        <span className="inline-block mt-3 px-3 py-1 text-xs bg-cyan-50 text-cyan-600 rounded-full">
+                          {t.ticketType}
+                        </span>
+
+                        <button
+                          className="text-red-500 text-sm mt-2 font-bold"
+                          onClick={() => {
+                            //todo dispatch(cancelCheckout(t.reference))
+                            console.log("cancel/refund", t._id);
+                          }}
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* PAGINATION */}
+              {!selectedEvent && totalPages > 1 && (
                 <div className="flex justify-center gap-2 mt-10">
                   {[...Array(totalPages)].map((_, i) => (
                     <button
