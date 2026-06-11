@@ -59,7 +59,7 @@ function Dashboard() {
     dispatch(fetchOrganizerAnalytics());
   }, [dispatch, role]);
 
-  const balance = profile?.user?.creditBalance ?? 0;
+  //todo const balance = profile?.user?.creditBalance ?? 0;
   return (
     <>
       <Navbar />
@@ -89,8 +89,8 @@ function Dashboard() {
 
           {/* Stats Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
-            {/* Credit Balance */}
-            <div className="bg-white p-6 rounded-[2rem] shadow-sm border border-gray-100">
+            {/* //TODO Credit Balance */}
+            {/* <div className="bg-white p-6 rounded-[2rem] shadow-sm border border-gray-100">
               <p className="text-xs font-bold text-gray-400 uppercase mb-2">
                 Credit Balance
               </p>
@@ -102,6 +102,19 @@ function Dashboard() {
               </h2>
               <div className="flex items-center gap-1 text-[#00c9a0] text-xs font-bold">
                 <ArrowUpRight size={14} /> +12% from last month
+              </div>
+            </div> */}
+            {/* Total Spent */}
+            <div className="bg-white p-6 rounded-[2rem] shadow-sm border border-gray-100">
+              <p className="text-xs font-bold text-gray-400 uppercase mb-2">
+                Total Spent
+              </p>
+              <h2 className="text-3xl font-black text-slate-900 mb-2">
+                ₦{userDashboard?.totalSpent}
+              </h2>
+              <div className="flex items-center gap-1 text-[#00c9a0] text-xs font-bold">
+                <ArrowUpRight size={14} />
+                {/* +12% from last month */}
               </div>
             </div>
 
@@ -148,7 +161,7 @@ function Dashboard() {
                 <h3 className="text-xl font-bold text-slate-900">
                   Upcoming Experiences
                 </h3>
-                <Link to="/upcoming-events">
+                <Link to="/my-events">
                   <button className="text-xs font-bold text-gray-400 hover:text-slate-900">
                     View All
                   </button>
@@ -157,7 +170,7 @@ function Dashboard() {
 
               {/* Event Item */}
               {userDashboard?.upcomingEvents?.length ? (
-                userDashboard.upcomingEvents.map((event) => (
+                userDashboard.upcomingEvents.slice(0, 2).map((event) => (
                   <div
                     key={event._id}
                     className="bg-white p-4 rounded-3xl border border-gray-100 flex flex-col sm:flex-row gap-4 sm:gap-6 hover:shadow-md transition-shadow"

@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 
 import authreducer from "./slices/authSlice";
 import userReducer from "./slices/userSlice";
+import checkoutReducer from "./slices/checkoutSlice";
 import ticketReducer from "./slices/ticketSlice";
 import organizerReducer from "./slices/organizerSlice";
 import eventReducer from "./slices/eventSlice";
@@ -12,6 +13,7 @@ export const store = configureStore({
     events: eventReducer,
     auth: authreducer,
     user: userReducer,
+    checkout: checkoutReducer,
     ticket: ticketReducer,
     organizer: organizerReducer,
     newsletter: newsletterReducer,

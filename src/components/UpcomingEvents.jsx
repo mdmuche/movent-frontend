@@ -114,9 +114,12 @@ function UpcomingEvents() {
                     </p>
                   </div>
 
-                  <button className="bg-cyan-400 hover:bg-cyan-500 text-white font-bold py-3 px-6 rounded-xl transition-all active:scale-95 shadow-lg shadow-cyan-500/20">
+                  <Link
+                    to={`/checkout/${event.slug}`}
+                    className="bg-cyan-400 hover:bg-cyan-500 text-white font-bold py-3 px-6 rounded-xl transition-all active:scale-95 shadow-lg shadow-cyan-500/20"
+                  >
                     Book Now
-                  </button>
+                  </Link>
                 </div>
               </div>
             </Link>

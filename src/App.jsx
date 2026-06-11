@@ -23,7 +23,8 @@ import ResetPassword from "./pages/auth/ResetPassword";
 import Profile from "./pages/attendee/Profile";
 import Dashboard from "./pages/attendee/Dashboard";
 import MyEvents from "./pages/attendee/MyEvents";
-import Checkout from "./pages/Checkout";
+import Checkout from "./pages/attendee/Checkout";
+import PaymentResult from "./pages/attendee/PaymentResult";
 
 import NotFound from "./pages/NotFound";
 import Unauthorized from "./pages/Unauthorized";
@@ -52,7 +53,6 @@ function App() {
       <Route path="/" element={<Home />} />
       <Route path="/events/:slug" element={<EventDetails />} />
       <Route path="/events" element={<Events />} />
-
       {/* Protected Route */}
       <Route
         path="/organizer-events"
@@ -71,10 +71,18 @@ function App() {
         }
       />
       <Route
-        path="/checkout/:id"
+        path="/checkout/:slug"
         element={
           <ProtectedRoute>
             <Checkout />
+          </ProtectedRoute>
+        }
+      />{" "}
+      <Route
+        path="/payment-success"
+        element={
+          <ProtectedRoute>
+            <PaymentResult />
           </ProtectedRoute>
         }
       />
