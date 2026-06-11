@@ -42,10 +42,6 @@ const formatCurrencyShort = (value = 0) => {
 function Dashboard() {
   const dispatch = useDispatch();
 
-  // const { dashboard: organizerDashboard } = useSelector(
-  //   (state) => state.organizer,
-  // );
-
   const { analytics } = useSelector((state) => state.organizer);
 
   const { profile, activity, activityLoading, userDashboard } = useSelector(
@@ -82,11 +78,13 @@ function Dashboard() {
                 Welcome back, Alex. Your curation looks exceptional today.
               </p>
             </div>
-            <Link to="/create-event">
-              <button className="bg-cyan-400 hover:bg-cyan-500 text-white font-bold py-3 px-6 sm:px-4 rounded-xl flex items-center gap-2 shadow-lg shadow-cyan-400/20 transition-all active:scale-95 cursor-pointer">
-                <Plus size={20} /> Create New Event
-              </button>
-            </Link>
+            {role === "organizer" && (
+              <Link to="/create-event">
+                <button className="bg-cyan-400 hover:bg-cyan-500 text-white font-bold py-3 px-6 sm:px-4 rounded-xl flex items-center gap-2 shadow-lg shadow-cyan-400/20 transition-all active:scale-95 cursor-pointer">
+                  <Plus size={20} /> Create New Event
+                </button>
+              </Link>
+            )}
           </header>
 
           {/* Stats Grid */}
@@ -108,31 +106,38 @@ function Dashboard() {
             </div>
 
             {/* Active Events */}
-            <div className="bg-[#004d4d] p-6 rounded-[2rem] shadow-lg text-white">
-              <p className="text-xs font-bold opacity-70 uppercase mb-2">
-                Active Events
-              </p>
-              <h2 className="text-3xl font-black mb-2">
-                {analytics?.activeEvents || 0}
-              </h2>
-              <div className="flex items-center gap-1 opacity-70 text-xs">
-                <BarChart3 size={14} />
-                {analytics?.totalTicketsSold || 0} Total Attendees
+            {role === "organizer" && (
+              <div className="bg-[#004d4d] p-6 rounded-[2rem] shadow-lg text-white">
+                <p className="text-xs font-bold opacity-70 uppercase mb-2">
+                  Active Events
+                </p>
+                <h2 className="text-3xl font-black mb-2">
+                  {analytics?.activeEvents || 0}
+                </h2>
+                <div className="flex items-center gap-1 opacity-70 text-xs">
+                  <BarChart3 size={14} />
+                  {analytics?.totalTicketsSold || 0} Total Attendees
+                </div>
               </div>
-            </div>
+            )}
 
             {/* Revenue Chart Placeholder */}
-            <div className="bg-white p-6 rounded-[2rem] shadow-sm border border-gray-100 flex flex-col justify-between">
-              <p className="text-xs font-bold text-gray-400 uppercase">
-                Total Revenue
-              </p>
-              <h2 className="text-3xl font-black text-slate-900 mb-2">
-                ₦{analytics?.totalRevenue?.toLocaleString() || 0}
-              </h2>
-              <button className="text-[#00c9a0] text-xs font-bold text-left hover:underline mt-4">
-                View Analytics Report
-              </button>
-            </div>
+            {role === "organizer" && (
+              <div className="bg-white p-6 rounded-[2rem] shadow-sm border border-gray-100 flex flex-col justify-between">
+                <p className="text-xs font-bold text-gray-400 uppercase">
+                  Total Revenue
+                </p>
+                <h2 className="text-3xl font-black text-slate-900 mb-2">
+                  ₦{analytics?.totalRevenue?.toLocaleString() || 0}
+                </h2>
+                <Link
+                  to="/analytics"
+                  className="text-[#00c9a0] text-xs font-bold text-left hover:underline mt-4"
+                >
+                  View Analytics Report
+                </Link>
+              </div>
+            )}
           </div>
 
           {/* Bottom Section: Events + Activity */}

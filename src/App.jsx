@@ -22,7 +22,7 @@ import ResetPassword from "./pages/auth/ResetPassword";
 // attendee routes
 import Profile from "./pages/attendee/Profile";
 import Dashboard from "./pages/attendee/Dashboard";
-import OrganizerEvents from "./pages/organizer/OrganizerEvents";
+import MyEvents from "./pages/attendee/MyEvents";
 import Checkout from "./pages/Checkout";
 
 import NotFound from "./pages/NotFound";
@@ -30,12 +30,14 @@ import Unauthorized from "./pages/Unauthorized";
 
 //organizer
 import CreateEvent from "./pages/organizer/CreateEvent";
+import OrganizerEvents from "./pages/organizer/OrganizerEvents";
+import EditEvent from "./pages/organizer/EditEvent";
+import Analytics from "./pages/organizer/Analytics";
 
-//adminroutes
+//admin routes
 import AdminDashboard from "./pages/Admin/AdminDashboard";
 
 import "./App.css";
-import EditEvent from "./pages/organizer/EditEvent";
 
 function App() {
   const dispatch = useDispatch();
@@ -57,6 +59,14 @@ function App() {
         element={
           <ProtectedRoute>
             <OrganizerEvents />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/my-events"
+        element={
+          <ProtectedRoute>
+            <MyEvents />
           </ProtectedRoute>
         }
       />
@@ -98,6 +108,14 @@ function App() {
         element={
           <ProtectedRoute>
             <Dashboard />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/analytics"
+        element={
+          <ProtectedRoute>
+            <Analytics />
           </ProtectedRoute>
         }
       />

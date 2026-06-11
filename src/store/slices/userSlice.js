@@ -24,6 +24,7 @@ const initialState = {
   },
   userDashboard: null,
   savedEvents: [],
+  savedEventsLoading: false,
   activity: [],
   activityPagination: {},
   activityLoading: false,
@@ -60,6 +61,7 @@ const userSlice = createSlice({
       state.activity = [];
       state.loading = false;
       state.actionLoading = false;
+      state.savedEventsLoading = false;
       state.error = null;
     },
 
@@ -120,14 +122,14 @@ const userSlice = createSlice({
       // SAVED EVENTS
       // ======================
       .addCase(fetchSavedEvents.pending, (state) => {
-        state.loading = true;
+        state.savedEventsLoading = true;
       })
       .addCase(fetchSavedEvents.fulfilled, (state, action) => {
-        state.loading = false;
+        state.savedEventsLoading = false;
         state.savedEvents = action.payload;
       })
       .addCase(fetchSavedEvents.rejected, (state, action) => {
-        state.loading = false;
+        state.savedEventsLoading = false;
         state.error = action.payload;
       })
 

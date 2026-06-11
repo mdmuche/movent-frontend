@@ -1,7 +1,22 @@
-import { BarChart3, Calendar, Settings, Ticket } from "lucide-react";
-import { Link } from "react-router-dom";
+import {
+  BarChart3,
+  Bookmark,
+  Calendar,
+  LayoutDashboard,
+  Settings,
+} from "lucide-react";
+import { useSelector } from "react-redux";
+import { NavLink } from "react-router-dom";
 
 function SideBar() {
+  const { profile } = useSelector((state) => state.user);
+  const role = profile?.user?.role || null;
+
+  const navClass = ({ isActive }) =>
+    `w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold transition-all cursor-pointer ${
+      isActive ? "bg-[#004d4d] text-white" : "text-gray-500 hover:bg-gray-50"
+    }`;
+
   return (
     <aside className="hidden lg:flex w-64 bg-white border-r border-gray-200 flex-col p-6 space-y-8">
       <div className="text-xs font-bold text-gray-400 uppercase tracking-widest">
@@ -9,20 +24,30 @@ function SideBar() {
       </div>
 
       <nav className="space-y-2">
-        <button className="w-full flex items-center gap-3 px-4 py-3 bg-[#004d4d] text-white rounded-xl font-bold transition-all cursor-pointer">
-          <Ticket size={20} /> My Tickets
-        </button>
-        <Link to="/organizer-events">
-          <button className="w-full flex items-center gap-3 px-4 py-3 text-gray-500 hover:bg-gray-50 rounded-xl transition-all cursor-pointer">
-            <Calendar size={20} /> My Events
-          </button>
-        </Link>
-        <button className="w-full flex items-center gap-3 px-4 py-3 text-gray-500 hover:bg-gray-50 rounded-xl transition-all cursor-pointer">
-          <BarChart3 size={20} /> Analytics
-        </button>
-        <button className="w-full flex items-center gap-3 px-4 py-3 text-gray-500 hover:bg-gray-50 rounded-xl transition-all cursor-pointer">
+        <NavLink to="/dashboard" className={navClass}>
+          <LayoutDashboard size={20} /> Overview
+        </NavLink>
+
+        <NavLink to="/my-events" className={navClass}>
+          <Bookmark size={20} />
+          My Events
+        </NavLink>
+
+        {role === "organizer" && (
+          <>
+            <NavLink to="/organizer-events" className={navClass}>
+              <Calendar size={20} /> Manage Events
+            </NavLink>
+
+            <NavLink to="/analytics" className={navClass}>
+              <BarChart3 size={20} /> Analytics
+            </NavLink>
+          </>
+        )}
+
+        <NavLink to="/profile" className={navClass}>
           <Settings size={20} /> Settings
-        </button>
+        </NavLink>
       </nav>
 
       {/* Profile Completion Card */}

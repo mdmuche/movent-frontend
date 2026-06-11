@@ -1,0 +1,174 @@
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Bookmark, Ticket } from "lucide-react";
+
+import Footer from "../../components/common/Footer";
+import Navbar from "../../components/common/Navigation/Navbar";
+import SideBar from "../../components/SideBar";
+
+import { fetchMyTickets } from "../../store/thunks/ticketThunks";
+import { fetchSavedEvents } from "../../store/thunks/userThunks";
+
+function MyEvents() {
+  const dispatch = useDispatch();
+
+  const [activeTab, setActiveTab] = useState("tickets");
+  const [page, setPage] = useState(1);
+
+  const { tickets, pagination, loading } = useSelector((state) => state.ticket);
+
+  const { savedEvents, savedEventsLoading } = useSelector(
+    (state) => state.user,
+  );
+
+  // FETCH DATA (depends on tab + page)
+  useEffect(() => {
+    if (activeTab === "tickets") {
+      dispatch(fetchMyTickets({ page, limit: 10 }));
+    } else {
+      dispatch(fetchSavedEvents({ page, limit: 10 }));
+    }
+  }, [dispatch, activeTab, page]);
+
+  const isLoading = activeTab === "tickets" ? loading : savedEventsLoading;
+
+  const totalPages =
+    activeTab === "tickets"
+      ? pagination?.totalPages || 1
+      : savedEvents?.pagination?.totalPages || 1;
+
+  const data = activeTab === "tickets" ? tickets : savedEvents?.savedEvents;
+
+  return (
+    <>
+      <Navbar />
+
+      <div className="flex flex-col lg:flex-row min-h-screen bg-slate-50">
+        <SideBar />
+
+        <main className="flex-1 p-4 md:p-8 space-y-10">
+          {/* HEADER */}
+          <div>
+            <h1 className="text-3xl font-black text-slate-900">My Events</h1>
+            <p className="text-slate-500 mt-2">
+              Manage your tickets and saved events.
+            </p>
+          </div>
+
+          {/* TOGGLE */}
+          <div className="flex gap-3">
+            <button
+              onClick={() => {
+                setActiveTab("tickets");
+                setPage(1);
+              }}
+              className={`flex items-center gap-2 px-5 py-3 rounded-xl font-bold ${
+                activeTab === "tickets"
+                  ? "bg-[#004d4d] text-white"
+                  : "bg-white border"
+              }`}
+            >
+              <Ticket size={18} />
+              Tickets
+            </button>
+
+            <button
+              onClick={() => {
+                setActiveTab("saved");
+                setPage(1);
+              }}
+              className={`flex items-center gap-2 px-5 py-3 rounded-xl font-bold ${
+                activeTab === "saved"
+                  ? "bg-[#004d4d] text-white"
+                  : "bg-white border"
+              }`}
+            >
+              <Bookmark size={18} />
+              Saved
+            </button>
+          </div>
+
+          {/* CONTENT */}
+          {isLoading ? (
+            <p>Loading...</p>
+          ) : data?.length ? (
+            <>
+              {/* TICKETS (CARD UI) */}
+              {activeTab === "tickets" && (
+                <div className="space-y-4">
+                  {data.map((ticket) => (
+                    <div key={ticket._id} className="bg-white rounded-3xl p-5">
+                      <h2 className="font-black text-lg">
+                        {ticket.event?.title}
+                      </h2>
+
+                      <p className="text-sm text-slate-500 mt-1">
+                        {ticket.event?.venue}
+                      </p>
+
+                      <p className="text-sm text-slate-500 mt-1">
+                        {ticket.reference}
+                      </p>
+
+                      <span className="inline-block mt-3 px-3 py-1 text-xs bg-cyan-50 text-cyan-600 rounded-full">
+                        {ticket.ticketType}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* SAVED EVENTS (LIST UI) */}
+              {activeTab === "saved" && (
+                <div className="space-y-3">
+                  {data.map((event) => (
+                    <div
+                      key={event._id}
+                      className="flex items-center justify-between bg-white p-4 rounded-2xl"
+                    >
+                      <div>
+                        <h2 className="font-black text-slate-900">
+                          {event.title}
+                        </h2>
+                        <p className="text-sm text-slate-500">{event.venue}</p>
+                      </div>
+
+                      <span className="text-xs text-slate-400">
+                        {new Date(event.startDate).toLocaleDateString()}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* PAGINATION (SHARED) */}
+              {totalPages > 1 && (
+                <div className="flex justify-center gap-2 mt-10">
+                  {[...Array(totalPages)].map((_, i) => (
+                    <button
+                      key={i}
+                      onClick={() => setPage(i + 1)}
+                      className={`w-10 h-10 rounded-xl font-bold ${
+                        page === i + 1
+                          ? "bg-[#004d4d] text-white"
+                          : "bg-white border"
+                      }`}
+                    >
+                      {i + 1}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </>
+          ) : (
+            <p className="text-slate-500">No data found.</p>
+          )}
+        </main>
+      </div>
+
+      <Footer />
+    </>
+  );
+}
+
+export default MyEvents;
