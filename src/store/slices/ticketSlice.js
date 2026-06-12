@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchMyTickets } from "../thunks/ticketThunks";
+import { cancelTicket, fetchMyTickets } from "../thunks/ticketThunks";
 
 const initialState = {
   tickets: [],
@@ -28,6 +28,28 @@ const ticketSlice = createSlice({
       })
 
       .addCase(fetchMyTickets.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+      // cancel ticket
+      .addCase(cancelTicket.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+
+      .addCase(cancelTicket.fulfilled, (state, action) => {
+        state.loading = false;
+
+        // remove or update cancelled ticket in state
+        const cancelledId = action.payload?.data?._id;
+
+        state.tickets = state.tickets.map((t) =>
+          t._id === cancelledId ? { ...t, paymentStatus: "cancelled" } : t,
+        );
+      })
+
+      .addCase(cancelTicket.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });

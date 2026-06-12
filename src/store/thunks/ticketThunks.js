@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-import { getMyTicketsRequest } from "../../api/ticketApi";
+import { cancelTicketRequest, getMyTicketsRequest } from "../../api/ticketApi";
 
 export const fetchMyTickets = createAsyncThunk(
   "ticket/fetchMyTickets",
@@ -15,6 +15,21 @@ export const fetchMyTickets = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(
         error.response?.data?.message || "Failed to fetch tickets",
+      );
+    }
+  },
+);
+
+// CANCEL TICKET
+export const cancelTicket = createAsyncThunk(
+  "ticket/cancelTicket",
+  async (ticketId, { rejectWithValue }) => {
+    try {
+      const res = await cancelTicketRequest(ticketId);
+      return res.data;
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to cancel ticket",
       );
     }
   },

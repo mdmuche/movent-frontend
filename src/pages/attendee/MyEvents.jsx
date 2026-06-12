@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Bookmark, Ticket } from "lucide-react";
+import { toast } from "react-toastify";
 
 import Footer from "../../components/common/Footer";
 import Navbar from "../../components/common/Navigation/Navbar";
@@ -8,15 +9,14 @@ import SideBar from "../../components/SideBar";
 
 import { fetchMyTickets } from "../../store/thunks/ticketThunks";
 import { fetchSavedEvents } from "../../store/thunks/userThunks";
-
-//todo (later hooks)
-// import { cancelCheckout } from "../../store/thunks/checkoutThunks";
+import { cancelTicket } from "../../store/thunks/ticketThunks";
 
 function MyEvents() {
   const dispatch = useDispatch();
 
   const [activeTab, setActiveTab] = useState("tickets");
   const [page, setPage] = useState(1);
+  const [cancellingReference, setCancellingReference] = useState(null);
 
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [search, setSearch] = useState("");
@@ -69,10 +69,36 @@ function MyEvents() {
    */
   const filteredTickets =
     selectedEvent?.tickets?.filter((t) =>
-      `${t.reference} ${t.ticketType}`
+      `${t.reference} ${t.ticketType} ${t.status}`
         .toLowerCase()
         .includes(search.toLowerCase()),
     ) || [];
+
+  /**
+   *CANCEL TICKET WITH PROPER CONFIRMATION
+   */
+  const handleCancelTicket = async (ticketId) => {
+    const confirmed = window.confirm(
+      "Are you sure you want to cancel this ticket? This may be non-refundable.",
+    );
+
+    if (!confirmed) return;
+
+    try {
+      setCancellingReference(ticketId);
+
+      await dispatch(cancelTicket(ticketId)).unwrap();
+
+      toast.success("Ticket cancelled successfully");
+
+      dispatch(fetchMyTickets({ page, limit: 10 }));
+      setSelectedEvent(null);
+    } catch (err) {
+      toast.error(err?.message || "Failed to cancel ticket");
+    } finally {
+      setCancellingReference(null);
+    }
+  };
 
   return (
     <>
@@ -198,7 +224,7 @@ function MyEvents() {
                   <input
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
-                    placeholder="Search by reference or ticket type"
+                    placeholder="Search by reference, ticket type or status"
                     className="w-full mt-4 border p-3 rounded-xl"
                   />
 
@@ -208,19 +234,33 @@ function MyEvents() {
                       <div key={t._id} className="shadow-md rounded-xl p-3">
                         <p className="font-bold">{t.reference}</p>
 
-                        <span className="inline-block mt-3 px-3 py-1 text-xs bg-cyan-50 text-cyan-600 rounded-full">
-                          {t.ticketType}
-                        </span>
+                        <div className="flex gap-2 items-center">
+                          <span className="inline-block px-3 py-1 text-xs bg-cyan-50 text-cyan-600 rounded-full">
+                            {t.ticketType}
+                          </span>
+                          {t.status === "active" && (
+                            <span className="text-xs bg-cyan-50 text-cyan-600 px-2 py-1 rounded-full">
+                              active
+                            </span>
+                          )}
 
-                        <button
-                          className="text-red-500 text-sm mt-2 font-bold"
-                          onClick={() => {
-                            //todo dispatch(cancelCheckout(t.reference))
-                            console.log("cancel/refund", t._id);
-                          }}
-                        >
-                          Cancel
-                        </button>
+                          {t.status !== "cancelled" && (
+                            <button
+                              disabled={cancellingReference === t._id}
+                              onClick={() => handleCancelTicket(t._id)}
+                              className="text-red-500 text-sm mt-2 font-bold disabled:opacity-50"
+                            >
+                              {cancellingReference === t._id
+                                ? "Cancelling..."
+                                : "Cancel Ticket"}
+                            </button>
+                          )}
+                          {t.status === "cancelled" && (
+                            <span className="text-xs bg-red-50 text-red-500 px-2 py-1 rounded-full">
+                              Cancelled
+                            </span>
+                          )}
+                        </div>
                       </div>
                     ))}
                   </div>
