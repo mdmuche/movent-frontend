@@ -39,6 +39,10 @@ import Analytics from "./pages/organizer/Analytics";
 import AdminDashboard from "./pages/Admin/AdminDashboard";
 
 import "./App.css";
+import AuditLogs from "./pages/Admin/AuditLogs";
+import UserRegistry from "./pages/Admin/UserRegistry";
+import EventQueue from "./pages/Admin/EventQueue";
+import SystemConfiguration from "./pages/Admin/SystemConfiguration";
 
 function App() {
   const dispatch = useDispatch();
@@ -127,11 +131,44 @@ function App() {
           </ProtectedRoute>
         }
       />
+      {/*   Admin Routes */}
       <Route
         path="/admin-dashboard"
         element={
           <AdminGuard>
             <AdminDashboard />
+          </AdminGuard>
+        }
+      />
+      <Route
+        path="/event-queue"
+        element={
+          <AdminGuard>
+            <EventQueue />
+          </AdminGuard>
+        }
+      />
+      <Route
+        path="/user-registry"
+        element={
+          <AdminGuard>
+            <UserRegistry />
+          </AdminGuard>
+        }
+      />
+      <Route
+        path="/audit-logs"
+        element={
+          <AdminGuard>
+            <AuditLogs />
+          </AdminGuard>
+        }
+      />
+      <Route
+        path="/system-configuration"
+        element={
+          <AdminGuard>
+            <SystemConfiguration />
           </AdminGuard>
         }
       />

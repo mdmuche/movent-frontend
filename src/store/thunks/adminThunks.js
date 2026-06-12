@@ -5,6 +5,9 @@ import {
   getEventQueueRequest,
   getAllUsersRequest,
   exportReportRequest,
+  getSystemSettingsRequest,
+  updateSystemSettingsRequest,
+  getAuditLogsRequest,
 } from "../../api/adminApi";
 
 const downloadFile = (blob, filename) => {
@@ -85,6 +88,54 @@ export const exportReport = createAsyncThunk(
       return true;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || "Export failed");
+    }
+  },
+);
+
+// ----------------------------
+// GET SYSTEM SETTINGS
+// ----------------------------
+export const getSystemSettings = createAsyncThunk(
+  "admin/getSystemSettings",
+  async (_, { rejectWithValue }) => {
+    try {
+      const { data } = await getSystemSettingsRequest();
+      return data.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.message);
+    }
+  },
+);
+
+// ----------------------------
+// UPDATE SYSTEM SETTINGS
+// ----------------------------
+export const updateSystemSettings = createAsyncThunk(
+  "admin/updateSystemSettings",
+  async (payload, { rejectWithValue }) => {
+    try {
+      const { data } = await updateSystemSettingsRequest(payload);
+      return data.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.message);
+    }
+  },
+);
+
+// ----------------------------
+// GET AUDIT LOGS
+// ----------------------------
+export const getAuditLogs = createAsyncThunk(
+  "admin/getAuditLogs",
+  async (params, { rejectWithValue }) => {
+    try {
+      const res = await getAuditLogsRequest();
+
+      return res.data;
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to fetch audit logs",
+      );
     }
   },
 );

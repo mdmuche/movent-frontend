@@ -25,16 +25,21 @@ function AdminSidebar() {
             Core Management
           </p>
           <SidebarLink
+            path={"/admin-dashboard"}
             icon={<LayoutDashboard size={20} />}
             label="Platform Overview"
-            active
           />
           <SidebarLink
+            path={"/event-queue"}
             icon={<CalendarClock size={20} />}
             label="Event Queue"
             badge={eventQueue.length}
           />
-          <SidebarLink icon={<Users size={20} />} label="User Registry" />
+          <SidebarLink
+            path={"/user-registry"}
+            icon={<Users size={20} />}
+            label="User Registry"
+          />
         </div>
 
         <div>
@@ -42,10 +47,15 @@ function AdminSidebar() {
             Infrastructure
           </p>
           <SidebarLink
+            path={"/system-configuration"}
             icon={<Settings className="bg-red-500" size={20} />}
             label="System Configuration"
           />
-          <SidebarLink icon={<FileSearch size={20} />} label="Audit Logs" />
+          <SidebarLink
+            path={"/audit-logs"}
+            icon={<FileSearch size={20} />}
+            label="Audit Logs"
+          />
         </div>
       </nav>
     </aside>
