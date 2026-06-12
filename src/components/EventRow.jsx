@@ -13,9 +13,7 @@ function EventRow({ name, sub, org, date, cap, image }) {
         </div>
       </td>
       <td className="py-6 text-sm font-bold text-slate-600">{org}</td>
-      <td className="py-6 text-sm font-bold text-slate-600">
-        {date.month} {date.day}
-      </td>
+      <td className="py-6 text-sm font-bold text-slate-600">{date}</td>
       <td className="py-6 text-sm font-black text-slate-900">{cap}</td>
       <td className="py-6">
         <div className="flex items-center justify-end gap-2">

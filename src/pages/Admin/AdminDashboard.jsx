@@ -1,139 +1,95 @@
 import {
-  LayoutDashboard,
   CalendarClock,
   Users,
-  Settings,
-  FileSearch,
-  Download,
-  Ticket,
   Activity,
   Search,
-  Bell,
   Filter,
   Music,
   MapPin,
 } from "lucide-react";
-import SidebarLink from "../../components/SidebarLink";
-import UserCard from "../../components/UserCard";
+import { useEffect, useRef, useState } from "react";
 import EventRow from "../../components/EventRow";
 import InsightItem from "../../components/InsightItem";
 import StatCard from "../../components/StatCard";
 import WalletIcon from "../../components/WalletIcon";
-import { events } from "../../data/moventData";
 import Footer from "../../components/common/Footer";
-import UserIcon from "../../components/common/UserIcon";
-import { Link } from "react-router-dom";
-import MobileNav from "../../components/common/Navigation/MobileNav";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  exportReport,
+  getAllUsers,
+  getEventQueue,
+  getPlatformOverview,
+} from "../../store/thunks/adminThunks";
+import UserRow from "../../components/UserRow";
+import AdminSidebar from "../../components/AdminSidebar";
+import AdminNavbar from "../../components/common/Navigation/AdminNavbar";
 
 function AdminDashboard() {
-  const navLinks = [
-    { name: "Explore", path: "/" },
-    { name: "Create Event", path: "/create-event" },
-    { name: "Dashboard", path: "/dashboard" },
-    { name: "Admin Dashboard", path: "/admin-dashboard" },
-    { name: "Profile", path: "/profile" },
-    {},
-  ];
+  const [exportOpen, setExportOpen] = useState(false);
+
+  const dispatch = useDispatch();
+
+  const exportRef = useRef();
+
+  const { overview, eventQueue, users, loading, exportLoading } = useSelector(
+    (state) => state.admin,
+  );
+
+  const handleExport = (format) => {
+    dispatch(exportReport(format));
+    setExportOpen(false);
+  };
+
+  useEffect(() => {
+    dispatch(getPlatformOverview());
+
+    dispatch(
+      getEventQueue({
+        page: 1,
+        limit: 10,
+      }),
+    );
+
+    dispatch(
+      getAllUsers({
+        page: 1,
+        limit: 6,
+      }),
+    );
+  }, [dispatch]);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (exportRef.current && !exportRef.current.contains(event.target)) {
+        setExportOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  if (loading && !overview) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <p className="text-slate-500 font-bold">Loading dashboard...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-[#f1f5f9] flex font-sans text-slate-900">
       {/* Sidebar - Hidden on mobile, fixed on desktop */}
-      <aside className="hidden lg:flex w-72 bg-white border-r border-slate-200 flex-col sticky top-0 h-screen">
-        <div className="p-8">
-          <Link to="/">
-            <h1 className="text-2xl font-black text-[#004d4d]">Movent</h1>
-          </Link>
-        </div>
-
-        <nav className="flex-1 px-4 space-y-8">
-          <div>
-            <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4 ml-4">
-              Core Management
-            </p>
-            <SidebarLink
-              icon={<LayoutDashboard size={20} />}
-              label="Platform Overview"
-              active
-            />
-            <SidebarLink
-              icon={<CalendarClock size={20} />}
-              label="Event Queue"
-              badge="12"
-            />
-            <SidebarLink icon={<Users size={20} />} label="User Registry" />
-          </div>
-
-          <div>
-            <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4 ml-4">
-              Infrastructure
-            </p>
-            <SidebarLink
-              icon={<Settings className="bg-red-500" size={20} />}
-              label="System Configuration"
-            />
-            <SidebarLink icon={<FileSearch size={20} />} label="Audit Logs" />
-          </div>
-        </nav>
-      </aside>
+      <AdminSidebar />
 
       {/* Main Content */}
       <main className="flex-1 overflow-x-hidden">
         {/* Header */}
-        <header className="fixed top-0 left-0 right-0 lg:left-72 bg-white border-b border-slate-200 px-4 lg:px-8 py-4 lg:flex lg:flex-col xl:flex-row lg:gap-4 items-center justify-between z-50">
-          <div className="flex items-center justify-between lg:justify-center w-full">
-            <Link to="/">
-              <h1 className="lg:hidden text-xl font-black text-[#004d4d] cursor-pointer">
-                Movent
-              </h1>
-            </Link>
-            <MobileNav navLinks={navLinks} />
-            <nav className="hidden md:flex items-center gap-6 text-sm font-bold text-slate-500">
-              <Link
-                to="/"
-                className="text-[#00C950] border-b-2 border-[#00C950] pb-1"
-              >
-                Home
-              </Link>
-              <Link to="/" className="hover:text-slate-800">
-                Explore
-              </Link>
-              <Link to="/create-event" className="hover:text-slate-800">
-                Create Event
-              </Link>
-            </nav>
-          </div>
-
-          <div className="hidden w-full sm:flex justify-between items-center gap-4 lg:gap-6">
-            <div className="hidden sm:flex items-center bg-slate-100 rounded-xl px-4 py-2 w-64 border border-transparent focus-within:border-slate-300 transition-all">
-              <Search size={18} className="text-slate-400" />
-              <input
-                placeholder="Search operations..."
-                className="bg-transparent border-none focus:ring-0 text-sm ml-2 w-full"
-              />
-            </div>
-            <div className="flex items-center gap-4">
-              <button className="p-2 text-slate-400 hover:text-slate-600 relative">
-                <Bell size={20} />
-                <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
-              </button>
-              <div className="flex items-center gap-3 pl-4 border-l border-slate-200">
-                <div className="text-right hidden sm:block">
-                  <p className="text-xs font-black text-slate-900">Admin</p>
-                  <p className="text-[10px] font-bold text-slate-400 uppercase">
-                    System Admin
-                  </p>
-                </div>
-                <Link to="/profile">
-                  <UserIcon />
-                </Link>
-              </div>
-            </div>
-          </div>
-        </header>
-        <div
-          className="h-16 sm:h-28 lg:h-32 xl:h-20"
-          aria-hidden="true"
-        />
+        <AdminNavbar />
+        <div className="h-16 sm:h-28 lg:h-32 xl:h-20" aria-hidden="true" />
 
         <div className="p-4 lg:p-8 max-w-[1600px] mx-auto space-y-8">
           {/* Dashboard Intro */}
@@ -146,13 +102,51 @@ function AdminDashboard() {
                 Central nervous system for Movent ticketing operations.
               </p>
             </div>
-            <div className="flex gap-3">
-              <button className="flex items-center gap-2 bg-white border border-slate-200 px-4 py-2.5 rounded-xl font-bold text-sm text-slate-600 hover:bg-slate-50 transition-all">
-                <Download size={18} /> Export Report
+            <div className="relative" ref={exportRef}>
+              {/* MAIN BUTTON */}
+              <button
+                onClick={() => setExportOpen((prev) => !prev)}
+                disabled={exportLoading}
+                className="flex items-center gap-2 bg-white border border-slate-200 px-5 py-2.5 rounded-xl font-bold text-sm text-slate-700 hover:bg-slate-50 transition-all disabled:opacity-60"
+              >
+                {exportLoading ? (
+                  <>
+                    <span className="w-3 h-3 border-2 border-slate-400 border-t-transparent rounded-full animate-spin"></span>
+                    Exporting...
+                  </>
+                ) : (
+                  <>
+                    Export Report
+                    <span className="text-xs">▾</span>
+                  </>
+                )}
               </button>
-              <button className="bg-[#00e5ff] text-[#004d4d] px-6 py-2.5 rounded-xl font-black text-sm hover:brightness-105 transition-all shadow-lg shadow-cyan-100">
-                Refresh Data
-              </button>
+
+              {/* DROPDOWN */}
+              {exportOpen && (
+                <div className="absolute right-0 mt-2 w-44 bg-white border border-slate-200 rounded-xl shadow-lg overflow-hidden z-50">
+                  <button
+                    onClick={() => handleExport("csv")}
+                    className="w-full text-left px-4 py-2 text-sm hover:bg-slate-50"
+                  >
+                    Export as CSV
+                  </button>
+
+                  <button
+                    onClick={() => handleExport("xlsx")}
+                    className="w-full text-left px-4 py-2 text-sm hover:bg-slate-50"
+                  >
+                    Export as Excel
+                  </button>
+
+                  <button
+                    onClick={() => handleExport("pdf")}
+                    className="w-full text-left px-4 py-2 text-sm hover:bg-slate-50"
+                  >
+                    Export as PDF
+                  </button>
+                </div>
+              )}
             </div>
           </div>
 
@@ -160,27 +154,32 @@ function AdminDashboard() {
           <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
             <StatCard
               icon={<WalletIcon />}
-              label="Total Sales"
-              value="$1,284,500"
-              trend="+ 12.5%"
+              label="Total Revenue"
+              value={`₦${overview?.totalRevenue?.toLocaleString() || 0}`}
             />
+
             <StatCard
               icon={<Users size={20} className="text-cyan-500" />}
-              label="Active Users"
-              value="42,891"
-              trend="+ 5.2%"
+              label="Total Users"
+              value={overview?.totalUsers?.toLocaleString() || 0}
             />
+
             <StatCard
-              icon={<Ticket size={20} className="text-orange-500" />}
-              label="Tickets Issued"
-              value="156,204"
-              trend="+ 1.2%"
+              icon={<CalendarClock size={20} className="text-[#00C950]" />}
+              label="Total Events"
+              value={overview?.totalEvents?.toLocaleString() || 0}
             />
+
             <StatCard
-              icon={<Activity size={20} className="text-[#00C950]" />}
-              label="Platform Uptime"
-              value="99.98%"
-              status="LIVE"
+              icon={<CalendarClock size={20} className="text-[#00C950]" />}
+              label="Pending Events"
+              value={overview?.pendingEvents?.toLocaleString() || 0}
+            />
+
+            <StatCard
+              icon={<Activity size={20} className="text-red-500" />}
+              label="Pending Approval"
+              value={overview?.pendingEvents?.toLocaleString() || 0}
             />
           </div>
 
@@ -240,7 +239,7 @@ function AdminDashboard() {
                   <InsightItem
                     icon={<MapPin size={18} />}
                     label="Hot Zone"
-                    value="San Francisco, CA"
+                    value="Ikeja, Lagos"
                   />
                 </div>
               </div>
@@ -274,15 +273,15 @@ function AdminDashboard() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-50">
-                {events.map((event) => (
+                {eventQueue.slice(0, 3).map((event) => (
                   <EventRow
-                    key={event.id}
+                    key={event._id}
                     name={event.title}
                     sub={event.category}
-                    org={event.organization}
-                    date={event.date}
-                    cap={event.capacity}
-                    image={event.image}
+                    org={event.organizer?.fullName}
+                    date={new Date(event.createdAt).toLocaleDateString()}
+                    cap={event.totalTickets} //todo just for testing use capacity
+                    image={event.bannerImage.secure_url}
                   />
                 ))}
               </tbody>
@@ -313,36 +312,16 @@ function AdminDashboard() {
                 </button>
               </div>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-              <UserCard
-                name="Jane Doe"
-                email="jane.doe@example.com"
-                tag="Organizer"
-                member="Pro Member"
-                meta="128 Sales"
-                initials="JD"
-                color="bg-cyan-100 text-cyan-600"
+            {users.slice(0, 3).map((user) => (
+              <UserRow
+                key={user._id}
+                name={user.fullName}
+                email={user.email}
+                tag={user.role}
+                member={user.isVerifiedOrganizer ? "Verified" : "Standard"}
+                meta={`${new Date(user.createdAt).toLocaleDateString()}`}
               />
-              <UserCard
-                name="Marcus Sterling"
-                email="m.sterling@agency.com"
-                tag="Standard"
-                member="Verified"
-                meta="42 Purchases"
-                initials="MS"
-                color="bg-slate-100 text-slate-600"
-              />
-              <UserCard
-                name="Aria Loft"
-                email="aria@loftevents.com"
-                tag="Organizer"
-                member="Flagged"
-                meta="89 Sales"
-                initials="AL"
-                color="bg-orange-100 text-orange-600"
-                flagged
-              />
-            </div>
+            ))}
           </div>
         </div>
         <Footer />

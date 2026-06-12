@@ -7,6 +7,7 @@ import ticketReducer from "./slices/ticketSlice";
 import organizerReducer from "./slices/organizerSlice";
 import eventReducer from "./slices/eventSlice";
 import newsletterReducer from "./slices/newsletterSlice";
+import adminReducer from "./slices/adminSlice";
 
 export const store = configureStore({
   reducer: {
@@ -17,5 +18,6 @@ export const store = configureStore({
     ticket: ticketReducer,
     organizer: organizerReducer,
     newsletter: newsletterReducer,
+    admin: adminReducer,
   },
 });
