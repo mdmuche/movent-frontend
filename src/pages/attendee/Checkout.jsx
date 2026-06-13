@@ -26,6 +26,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { fetchEvent } from "../../store/thunks/eventThunks";
 import InputField from "../../components/InputField";
+import CommingSoon from "../../components/CommingSoon";
 
 function Checkout() {
   const { slug } = useParams();
@@ -230,11 +231,7 @@ function Checkout() {
 
                 {/* Disabled Card Option */}
                 <div className="mt-4 relative opacity-40">
-                  <div className="absolute inset-0 bg-white/40 backdrop-blur-sm rounded-2xl flex items-center justify-center z-10">
-                    <span className="text-xs font-bold bg-slate-200 px-3 py-1 rounded-full">
-                      Coming Soon
-                    </span>
-                  </div>
+                  <CommingSoon />
 
                   <div className="p-4 border-2 border-slate-200 rounded-2xl">
                     <p className="font-bold text-slate-500 flex items-center gap-2">

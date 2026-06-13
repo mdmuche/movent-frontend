@@ -23,6 +23,7 @@ import {
 import UserRow from "../../components/UserRow";
 import AdminSidebar from "../../components/AdminSidebar";
 import AdminNavbar from "../../components/common/Navigation/AdminNavbar";
+import CommingSoon from "../../components/CommingSoon";
 
 function AdminDashboard() {
   const [exportOpen, setExportOpen] = useState(false);
@@ -185,42 +186,53 @@ function AdminDashboard() {
 
           {/* Chart & Insights Section */}
           <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
-            <div className="xl:col-span-2 bg-white rounded-[2rem] p-8 border border-slate-100 shadow-sm">
-              <div className="flex justify-between items-center mb-8">
-                <div>
-                  <h3 className="text-xl font-black text-slate-900">
-                    Revenue Trends
-                  </h3>
-                  <p className="text-xs font-bold text-slate-400">
-                    Monthly growth comparison across regions
-                  </p>
-                </div>
-                <select className="bg-slate-50 border-none rounded-lg text-xs font-bold px-4 py-2">
-                  <option>Last 6 Months</option>
-                </select>
-              </div>
-              <div className="h-[300px] flex items-end justify-between px-4 pb-4 border-b border-slate-100">
-                {["JAN", "FEB", "MAR", "APR", "MAY", "JUN"].map((month, i) => (
-                  <div
-                    key={month}
-                    className="flex flex-col items-center gap-4 w-full"
-                  >
-                    <div className="w-8 lg:w-12 bg-slate-50 rounded-t-lg relative h-full flex items-end overflow-hidden">
-                      <div
-                        className="w-full bg-[#00e5ff]/20"
-                        style={{ height: `${20 + i * 12}%` }}
-                      ></div>
-                      <div
-                        className="absolute bottom-0 w-full bg-[#004d4d]/10"
-                        style={{ height: `${10 + i * 8}%` }}
-                      ></div>
-                    </div>
-                    <span className="text-[10px] font-black text-slate-400 tracking-widest">
-                      {month}
-                    </span>
+            <div className="relative xl:col-span-2">
+              {/* CONTENT */}
+              <div className="bg-white rounded-[2rem] p-8 border border-slate-100 shadow-sm opacity-80 pointer-events-none select-none">
+                <div className="flex justify-between items-center mb-8">
+                  <div>
+                    <h3 className="text-xl font-black text-slate-900">
+                      Revenue Trends
+                    </h3>
+                    <p className="text-xs font-bold text-slate-400">
+                      Monthly growth comparison across regions
+                    </p>
                   </div>
-                ))}
+
+                  <select className="bg-slate-50 border-none rounded-lg text-xs font-bold px-4 py-2">
+                    <option>Last 6 Months</option>
+                  </select>
+                </div>
+
+                <div className="h-[300px] flex items-end justify-between px-4 pb-4 border-b border-slate-100">
+                  {["JAN", "FEB", "MAR", "APR", "MAY", "JUN"].map(
+                    (month, i) => (
+                      <div
+                        key={month}
+                        className="flex flex-col items-center gap-4 w-full"
+                      >
+                        <div className="w-8 lg:w-12 bg-slate-50 rounded-t-lg relative h-full flex items-end overflow-hidden">
+                          <div
+                            className="w-full bg-[#00e5ff]/20"
+                            style={{ height: `${20 + i * 12}%` }}
+                          />
+                          <div
+                            className="absolute bottom-0 w-full bg-[#004d4d]/10"
+                            style={{ height: `${10 + i * 8}%` }}
+                          />
+                        </div>
+
+                        <span className="text-[10px] font-black text-slate-400 tracking-widest">
+                          {month}
+                        </span>
+                      </div>
+                    ),
+                  )}
+                </div>
               </div>
+
+              {/* SMALL "COMING SOON" BADGE */}
+              <CommingSoon />
             </div>
 
             <div className="bg-[#004d4d] rounded-[2rem] p-8 text-white flex flex-col justify-between shadow-xl relative overflow-hidden">
