@@ -17,6 +17,7 @@ const initialState = {
   // organizer analytics
   analytics: null,
   analyticsLoading: false,
+
   error: null,
   success: false,
 };

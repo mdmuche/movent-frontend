@@ -23,7 +23,7 @@ function OrganizerEvents() {
 
   const events = organizerDashboard?.myEvents || [];
 
-  const totalPages = organizerDashboard?.pagination?.totalPages || 0;
+  const totalPages = organizerDashboard?.pagination?.pages || 0;
 
   useEffect(() => {
     dispatch(

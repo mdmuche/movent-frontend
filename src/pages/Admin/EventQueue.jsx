@@ -75,7 +75,7 @@ function EventQueue() {
               </tbody>
             </table>
 
-            {pagination?.totalPages > 1 && (
+            {pagination?.pages > 1 && (
               <div className="flex justify-between items-center mt-6">
                 <button
                   disabled={!pagination?.hasPrevPage}
@@ -86,7 +86,7 @@ function EventQueue() {
                 </button>
 
                 <span className="font-bold text-sm">
-                  Page {pagination?.currentPage} of {pagination?.totalPages}
+                  Page {pagination?.currentPage} of {pagination?.pages}
                 </span>
 
                 <button

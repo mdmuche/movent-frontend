@@ -55,9 +55,9 @@ export const fetchOrganizerDashboard = createAsyncThunk(
 
 export const fetchOrganizerAnalytics = createAsyncThunk(
   "organizer/fetchOrganizerAnalytics",
-  async (_, { rejectWithValue }) => {
+  async (params, { rejectWithValue }) => {
     try {
-      const { data } = await getOrganizerAnalytics();
+      const { data } = await getOrganizerAnalytics(params);
       return data.data;
     } catch (err) {
       return rejectWithValue(

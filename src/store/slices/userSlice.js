@@ -63,6 +63,9 @@ const userSlice = createSlice({
       state.actionLoading = false;
       state.savedEventsLoading = false;
       state.error = null;
+
+      state.isAuthenticated = false;
+      state.authChecked = true;
     },
 
     clearUserError: (state) => {
@@ -82,6 +85,7 @@ const userSlice = createSlice({
       // ======================
       .addCase(fetchUserProfile.pending, (state) => {
         state.loading = true;
+        state.authChecked = false;
         state.error = null;
       })
       .addCase(fetchUserProfile.fulfilled, (state, action) => {

@@ -21,7 +21,7 @@ function AuditLogs() {
   useEffect(() => {
     dispatch(getAuditLogs({ page, limit: 20 }));
   }, [dispatch, page]);
-  const totalPages = auditPagination?.total || 1;
+  const totalPages = auditPagination?.pages || 1;
 
   const canNext = page < totalPages;
   const canPrev = page > 1;

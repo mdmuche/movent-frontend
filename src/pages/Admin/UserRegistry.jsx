@@ -69,7 +69,7 @@ function UserRegistry() {
                   />
                 ))}
 
-                {pagination?.totalPages > 1 && (
+                {pagination?.pages > 1 && (
                   <div className="flex justify-between items-center mt-8">
                     <button
                       disabled={!pagination?.hasPrevPage}

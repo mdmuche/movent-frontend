@@ -39,8 +39,8 @@ function MyEvents() {
 
   const totalPages =
     activeTab === "tickets"
-      ? pagination?.totalPages || 1
-      : savedEvents?.pagination?.totalPages || 1;
+      ? pagination?.pages || 1
+      : savedEvents?.pagination?.pages || 1;
 
   /**
    * GROUP TICKETS BY EVENT TITLE + VENUE

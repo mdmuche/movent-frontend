@@ -47,7 +47,7 @@ function HeroSection() {
               </label>
               <input
                 type="text"
-                value="San Francisco, CA"
+                value="Lagos, Nigeria"
                 class="outline-none text-sm md:text-base font-semibold text-slate-700 w-full"
               />
             </div>
