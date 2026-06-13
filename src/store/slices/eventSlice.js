@@ -6,9 +6,12 @@ import {
   fetchRecommendations,
   fetchUpcomingEventsInHome,
   fetchUpcomingEvents,
+  fetchEventCategories,
 } from "../thunks/eventThunks";
 
 const initialState = {
+  categories: [],
+  categoriesLoading: false,
   events: [],
   event: null,
   trendingEvents: [],
@@ -30,6 +33,20 @@ const eventSlice = createSlice({
 
   extraReducers: (builder) => {
     builder
+      // Categories
+      .addCase(fetchEventCategories.pending, (state) => {
+        state.categoriesLoading = true;
+      })
+
+      .addCase(fetchEventCategories.fulfilled, (state, action) => {
+        state.categoriesLoading = false;
+        state.categories = action.payload;
+      })
+
+      .addCase(fetchEventCategories.rejected, (state, action) => {
+        state.categoriesLoading = false;
+        state.error = action.payload;
+      })
 
       // ALL EVENTS
       .addCase(fetchEvents.pending, (state) => {

@@ -3,9 +3,11 @@ import { MapPin, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { fetchUpcomingEventsInHome } from "../store/thunks/eventThunks";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 function UpcomingEvents() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const { upcomingEventsInHome, loading, error } = useSelector(
     (state) => state.events,
@@ -56,10 +58,10 @@ function UpcomingEvents() {
         {/* Event Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {upcomingEventsInHome?.map((event) => (
-            <Link
-              to={`/events/${event.slug}`}
+            <div
               key={event._id}
-              className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-xl transition-shadow duration-300"
+              onClick={() => navigate(`/events/${event.slug}`)}
+              className="bg-white rounded-2xl overflow-hidden shadow-sm cursor-pointer"
             >
               {/* Image Container */}
               <div className="relative h-60 w-full">
@@ -122,7 +124,7 @@ function UpcomingEvents() {
                   </Link>
                 </div>
               </div>
-            </Link>
+            </div>
           ))}
         </div>
       </div>

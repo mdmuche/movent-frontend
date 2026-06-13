@@ -1,20 +1,20 @@
 export const categories = [
   {
-    title: "Concerts",
+    title: "music",
     subtitle: "Live acoustic journeys & arena tours.",
     count: "240+ EVENTS",
     image: "/images/concert.jpg",
     gridClass: "col-span-1",
   },
   {
-    title: "Art & Culture",
+    title: "Culture",
     subtitle: "Exhibitions that redefine perspective.",
     count: "115+ EVENTS",
     image: "/images/tiger.jpg",
     gridClass: "md:col-span-2",
   },
   {
-    title: "Tech Summits",
+    title: "Technology",
     subtitle: "Where the future is architected.",
     count: "88+ EVENTS",
     image: "/images/tech.jpg",

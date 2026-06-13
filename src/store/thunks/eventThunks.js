@@ -1,6 +1,20 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import * as eventApi from "../../api/eventApi";
 
+// Categories
+export const fetchEventCategories = createAsyncThunk(
+  "event/fetchEventCategories",
+  async (_, { rejectWithValue }) => {
+    try {
+      const { data } = await eventApi.getEventCategories();
+      return data.data;
+    } catch (err) {
+      return rejectWithValue(
+        err.response?.data?.message || "Failed to fetch categories",
+      );
+    }
+  },
+);
 // All events
 export const fetchEvents = createAsyncThunk(
   "events/fetchEvents",
