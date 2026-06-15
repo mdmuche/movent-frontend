@@ -31,9 +31,7 @@ function EventDetails() {
 
   const handleSaveEvent = async () => {
     try {
-      console.log("EVENT ID:", event?._id);
       const res = await dispatch(toggleSaveEvent(event._id)).unwrap();
-      console.log("SAVE RESPONSE:", res);
 
       setSaved(res.includes(event._id));
     } catch (err) {
