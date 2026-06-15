@@ -2,6 +2,7 @@ import { useSelector } from "react-redux";
 
 function UserIcon() {
   const { profile } = useSelector((state) => state.user);
+
   const userAvatar =
     "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y";
   return (
@@ -12,7 +13,7 @@ function UserIcon() {
             ? profile.user.profilePicture
             : userAvatar
         }
-        alt={profile.user.fullName || "User Profile"}
+        alt={profile?.user?.fullName || "User Profile"}
         className="w-9 h-9 rounded-full object-cover border border-gray-200"
       />
     </button>
