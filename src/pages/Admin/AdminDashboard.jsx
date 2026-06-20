@@ -288,12 +288,7 @@ function AdminDashboard() {
                 {eventQueue.slice(0, 3).map((event) => (
                   <EventRow
                     key={event._id}
-                    name={event.title}
-                    sub={event.category}
-                    org={event.organizer?.fullName}
-                    date={new Date(event.createdAt).toLocaleDateString()}
-                    cap={event.totalTickets} //todo just for testing use capacity
-                    image={event.bannerImage.secure_url}
+                    event={event}
                   />
                 ))}
               </tbody>
@@ -326,12 +321,7 @@ function AdminDashboard() {
             </div>
             {users.slice(0, 3).map((user) => (
               <UserRow
-                key={user._id}
-                name={user.fullName}
-                email={user.email}
-                tag={user.role}
-                member={user.isVerifiedOrganizer ? "Verified" : "Standard"}
-                meta={`${new Date(user.createdAt).toLocaleDateString()}`}
+                key={user._id} user={user}
               />
             ))}
           </div>

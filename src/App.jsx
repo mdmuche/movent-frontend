@@ -24,6 +24,7 @@ import Profile from "./pages/attendee/Profile";
 import Dashboard from "./pages/attendee/Dashboard";
 import MyEvents from "./pages/attendee/MyEvents";
 import Checkout from "./pages/attendee/Checkout";
+import Notifications from "./pages/attendee/Notifications";
 import PaymentResult from "./pages/attendee/PaymentResult";
 
 import NotFound from "./pages/NotFound";
@@ -37,12 +38,12 @@ import Analytics from "./pages/organizer/Analytics";
 
 //admin routes
 import AdminDashboard from "./pages/Admin/AdminDashboard";
-
-import "./App.css";
 import AuditLogs from "./pages/Admin/AuditLogs";
 import UserRegistry from "./pages/Admin/UserRegistry";
 import EventQueue from "./pages/Admin/EventQueue";
 import SystemConfiguration from "./pages/Admin/SystemConfiguration";
+
+import "./App.css";
 
 function App() {
   const dispatch = useDispatch();
@@ -106,12 +107,19 @@ function App() {
           </ProtectedRoute>
         }
       />
-      {/* <Route path="/alerts" element={<Alerts />} /> */}
       <Route
         path="/profile"
         element={
           <ProtectedRoute>
             <Profile />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/notifications"
+        element={
+          <ProtectedRoute>
+            <Notifications />
           </ProtectedRoute>
         }
       />

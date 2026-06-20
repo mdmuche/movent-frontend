@@ -64,12 +64,7 @@ function EventQueue() {
                 {eventQueue.map((event) => (
                   <EventRow
                     key={event._id}
-                    name={event.title}
-                    sub={event.category}
-                    org={event.organizer?.fullName}
-                    date={new Date(event.createdAt).toLocaleDateString()}
-                    cap={event.totalTickets}
-                    image={event.bannerImage?.secure_url}
+                    event={event}
                   />
                 ))}
               </tbody>

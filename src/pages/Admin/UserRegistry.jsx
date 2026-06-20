@@ -60,12 +60,7 @@ function UserRegistry() {
               <>
                 {users.map((user) => (
                   <UserRow
-                    key={user._id}
-                    name={user.fullName}
-                    email={user.email}
-                    tag={user.role}
-                    member={user.isVerifiedOrganizer ? "Verified" : "Standard"}
-                    meta={new Date(user.createdAt).toLocaleDateString()}
+                    key={user._id} user={user}
                   />
                 ))}
 

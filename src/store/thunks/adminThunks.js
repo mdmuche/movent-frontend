@@ -8,6 +8,10 @@ import {
   getSystemSettingsRequest,
   updateSystemSettingsRequest,
   getAuditLogsRequest,
+  approveRejectEventRequest,
+  flagUserRequest,
+  suspendUserRequest,
+  makeOrganizerRequest,
 } from "../../api/adminApi";
 
 const downloadFile = (blob, filename) => {
@@ -33,6 +37,26 @@ export const getPlatformOverview = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(
         error.response?.data?.message || "Failed to fetch platform overview",
+      );
+    }
+  },
+);
+
+// approve or reject an event
+export const approveRejectEvent = createAsyncThunk(
+  "admin/approveRejectEvent",
+  async ({ eventId, action, reason }, { rejectWithValue }) => {
+    try {
+      const res = await approveRejectEventRequest(eventId, {
+        action,
+        reason,
+      });
+
+      return res.data;
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data?.message ||
+        "Failed to process event approval",
       );
     }
   },
@@ -135,6 +159,54 @@ export const getAuditLogs = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(
         error.response?.data?.message || "Failed to fetch audit logs",
+      );
+    }
+  },
+);
+
+export const flagUser = createAsyncThunk(
+  "admin/flagUser",
+  async (userId, { rejectWithValue }) => {
+    try {
+      const res = await flagUserRequest(userId);
+
+      return res.data;
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to flag user",
+      );
+    }
+  },
+);
+
+export const suspendUser = createAsyncThunk(
+  "admin/suspendUser",
+  async ({ userId, data }, { rejectWithValue }) => {
+    try {
+      const res = await suspendUserRequest(userId, data);
+
+      return {
+        userId,
+        ...res.data,
+      };
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to suspend user",
+      );
+    }
+  },
+);
+
+export const makeOrganizer = createAsyncThunk(
+  "admin/makeOrganizer",
+  async (userId, { rejectWithValue }) => {
+    try {
+      const res = await makeOrganizerRequest(userId);
+
+      return res.data;
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to make organizer",
       );
     }
   },

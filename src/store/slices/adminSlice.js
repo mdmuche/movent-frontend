@@ -8,6 +8,10 @@ import {
   getSystemSettings,
   updateSystemSettings,
   getAuditLogs,
+  approveRejectEvent,
+  flagUser,
+  suspendUser,
+  makeOrganizer,
 } from "../thunks/adminThunks";
 
 const initialState = {
@@ -58,6 +62,25 @@ const adminSlice = createSlice({
         state.overview = action.payload.data;
       })
       .addCase(getPlatformOverview.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      // approve reject event
+      .addCase(approveRejectEvent.pending, (state) => {
+        state.loading = true;
+      })
+
+      .addCase(approveRejectEvent.fulfilled, (state, action) => {
+        state.loading = false;
+
+        const updatedEvent = action.payload.data;
+
+        state.eventQueue = state.eventQueue.filter(
+          (event) => event._id !== updatedEvent._id,
+        );
+      })
+
+      .addCase(approveRejectEvent.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })
@@ -141,6 +164,33 @@ const adminSlice = createSlice({
       })
       .addCase(getAuditLogs.rejected, (state) => {
         state.auditLoading = false;
+      })
+
+      // FLAG USER
+      .addCase(flagUser.fulfilled, (state, action) => {
+        const updatedUser = action.payload.data;
+
+        state.users = state.users.map((user) =>
+          user._id === updatedUser._id ? updatedUser : user,
+        );
+      })
+
+      // SUSPEND USER
+      .addCase(suspendUser.fulfilled, (state, action) => {
+        const updatedUser = action.payload.data;
+
+        state.users = state.users.map((user) =>
+          user._id === updatedUser._id ? updatedUser : user,
+        );
+      })
+
+      // MAKE ORGANIZER
+      .addCase(makeOrganizer.fulfilled, (state, action) => {
+        const updatedUser = action.payload.data;
+
+        state.users = state.users.map((user) =>
+          user._id === updatedUser._id ? updatedUser : user,
+        );
       });
   },
 });
