@@ -29,7 +29,7 @@ function AdminNavbar() {
           >
             Home
           </Link>
-          <Link to="/" className="hover:text-slate-800">
+          <Link to="/events" className="hover:text-slate-800">
             Discover Events
           </Link>
           <Link to="/create-event" className="hover:text-slate-800">
@@ -47,7 +47,10 @@ function AdminNavbar() {
           />
         </div>
         <div className="flex items-center gap-4">
-          <Link to='/notifications' className="p-2 text-slate-400 hover:text-slate-600 relative">
+          <Link
+            to="/notifications"
+            className="p-2 text-slate-400 hover:text-slate-600 relative"
+          >
             <Bell size={20} />
             <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
           </Link>
